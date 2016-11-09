@@ -1,6 +1,7 @@
 # Interactive Front-End for EV Traffic Simulation in Highways
 
 This project is part of the seminar "Energy Informatics" held during the winter semester 2016/17 by the Chair of Business Information Systems at TUM.
+
 Our goal is to design and implement an interactive front-end for a Python-based EV highway traffic simulation tool.
 
 * **Type of research**
