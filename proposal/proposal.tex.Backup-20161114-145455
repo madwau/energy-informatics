@@ -1,0 +1,59 @@
+%
+\documentclass{sig-alternate}
+\usepackage[utf8]{inputenc}
+
+\makeatletter
+\def\@copyrightspace{\relax}
+\makeatother
+
+\begin{document}
+
+\conferenceinfo{Energy Informatics}{2016 Munich, Germany}
+\title{Interactive Front-End for EV Traffic Simulation in Highways}
+
+
+\numberofauthors{2}
+
+\author{
+\alignauthor Adrian Thiesen\\
+       \affaddr{Fakultät für Informatik}\\
+       \affaddr{Technische Universität München}\\
+       \email{adrian.thiesen@tum.de}
+\alignauthor Martin Wauligmann\\
+       \affaddr{Fakultät für Informatik}\\
+       \affaddr{Technische Universität München}\\
+       \email{wauligma@in.tum.de}
+}
+
+
+\maketitle
+
+
+\begin{abstract}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium mollis leo id dignissim. Ut nec dictum metus. Curabitur at pulvinar dolor. In hac habitasse platea dictumst. Ut sed enim est. Maecenas non gravida orci. Vestibulum vitae hendrerit lacus. Vivamus in viverra sapien. Maecenas id nunc ut lacus aliquet dictum. Curabitur id nulla tellus. Nullam et euismod metus. Etiam consectetur lorem a tellus ultrices iaculis.
+\end{abstract}
+
+
+\section{Introduction}
+Sed in porttitor ipsum, quis rutrum nibh. Etiam efficitur, odio sit amet aliquam aliquet, velit lorem accumsan orci, sollicitudin gravida libero nisl eget sapien. Nulla gravida libero sed nisi molestie, ac tristique elit vehicula. Suspendisse tincidunt semper augue, id dapibus risus varius gravida. Suspendisse elementum tempor urna ac varius. Sed nec bibendum augue, accumsan congue velit. Mauris consectetur metus nulla, at cursus velit condimentum ac. Nullam neque justo, finibus vitae pharetra a, pharetra ac purus.
+
+Cras orci quam, tempor eu purus id, molestie iaculis nisl. Aliquam a lorem venenatis, ultricies turpis vitae, placerat tellus. Vivamus rutrum tortor tincidunt diam eleifend tempor. Mauris quis pharetra justo, nec laoreet ligula. Sed tincidunt magna sit amet velit sagittis, ac suscipit elit fringilla. Nullam vel justo quam. Nulla facilisi. Donec faucibus dictum quam a sodales. Maecenas vestibulum condimentum venenatis.
+
+Phasellus commodo lectus nisi. Etiam ac metus ut est porttitor accumsan. Maecenas nibh mi, commodo id gravida nec, posuere non lectus. Donec quis metus ex. Sed ut eros mattis odio facilisis commodo finibus et nisl. Suspendisse dapibus nisi et est tristique, condimentum consectetur risus bibendum. Morbi lacinia suscipit lacus nec laoreet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla et augue et odio vulputate egestas. Pellentesque eu eros quis mi fringilla ultricies. Ut ligula ipsum, convallis id sapien ut, bibendum sagittis sem. Donec non urna ac erat cursus suscipit eu eu urna. Fusce et nunc suscipit, posuere elit id, volutpat ex. Fusce aliquam ligula vitae turpis eleifend ullamcorper. Donec pulvinar dictum ligula, non sollicitudin orci elementum maximus. Nulla sit amet mauris finibus, posuere mauris quis, molestie turpis.
+
+In est diam, aliquet vel augue sit amet, consequat consequat enim. Nunc bibendum magna pulvinar porttitor vestibulum. Vivamus et turpis rutrum, ultricies risus in, scelerisque tortor. Quisque vitae feugiat ex. Praesent faucibus molestie quam, ut iaculis metus. Morbi auctor imperdiet ante, vehicula molestie lacus iaculis a. Fusce eu hendrerit quam, vitae scelerisque tortor. Vivamus ut nibh at nisi dignissim efficitur et pulvinar sapien. Suspendisse faucibus tortor nunc, et elementum purus porta et. Proin sed dictum sapien. Sed varius ultrices magna eget posuere.
+
+Proin vel libero tincidunt, fermentum orci et, molestie leo. Phasellus id ultricies felis. Nulla neque est, facilisis in dapibus sit amet, tempus nec tellus. Nullam laoreet ligula nec neque posuere, id volutpat justo tristique. Vivamus ornare fringilla augue. Nulla dictum, purus at rutrum luctus, nisi elit efficitur ex, quis porttitor mi dolor at neque. Duis dapibus leo vel viverra rutrum.
+
+
+\section{Motivation}
+Nunc id dolor facilisis, semper risus a, vestibulum massa. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla in tellus in augue pellentesque vehicula vel facilisis leo. Pellentesque lacinia metus quis leo ultricies interdum. Nullam convallis metus enim, vel condimentum libero convallis nec. Pellentesque at tempus ante. Donec vehicula tempor dapibus. Etiam malesuada pellentesque tellus sit amet feugiat. Quisque dignissim tristique sapien non dapibus. Ut cursus risus arcu, eu posuere tellus ultricies vitae.
+
+Nam elementum scelerisque faucibus. Aliquam consectetur nunc vitae dolor tempor tempor. Donec id augue in erat elementum ultricies. Nulla augue sapien, sollicitudin eget condimentum sed, tempus ac arcu. Suspendisse id libero sit amet lectus hendrerit pharetra. Maecenas molestie pulvinar eros, eu gravida ante consectetur ac. Mauris vestibulum lorem et cursus varius. Ut egestas nisl a magna ultrices malesuada sed id mi. Suspendisse id leo nec massa interdum dictum euismod sit amet orci.
+
+In est diam, aliquet vel augue sit amet, consequat consequat enim. Nunc bibendum magna pulvinar porttitor vestibulum. Vivamus et turpis rutrum, ultricies risus in, scelerisque tortor. Quisque vitae feugiat ex. Praesent faucibus molestie quam, ut iaculis metus. Morbi auctor imperdiet ante, vehicula molestie lacus iaculis a. Fusce eu hendrerit quam, vitae scelerisque tortor. Vivamus ut nibh at nisi dignissim efficitur et pulvinar sapien.
+
+Proin vel libero tincidunt, fermentum orci et, molestie leo. Phasellus id ultricies felis. Nulla neque est, facilisis in dapibus sit amet, tempus nec tellus. Nullam laoreet ligula nec neque posuere, id volutpat justo tristique. Vivamus ornare fringilla augue. Nulla dictum, purus at rutrum luctus, nisi elit efficitur ex, quis porttitor mi dolor at neque. Duis dapibus leo vel viverra rutrum.
+
+
+\end{document}
