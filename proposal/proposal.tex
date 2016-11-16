@@ -1,6 +1,7 @@
 %
 \documentclass{sig-alternate}
 \usepackage[utf8]{inputenc}
+\usepackage{cite}
 
 \makeatletter
 \def\@copyrightspace{\relax}
@@ -42,14 +43,15 @@ Vehicles, for scheduling charging stops during long distance travel e.g. 500km  
 reached with the lowest cost possible, in their case cost travel time \href{https://www.i13.in.tum
 .de/fileadmin/w00bof/www/PDF/TTE_2016.pdf}{[3}]. But this project is missing some interface, that shows to the driver
 basic information of the process e.g. a map of his position and charging stations. Besides that another sort of
-interface is desired, for someone that manages the simulation [SMI]. Therefore this work will propose prototypes
-for two Front-Ends. One for the driver, a driver interface [DI] and one for the managing persona a simulation
-managing interface [SMI].
+interface is desired, for someone that manages the simulation. Therefore this work will propose prototypes
+for two Front-Ends. One for the driver, a driver user interface [DUI] and one for the managing persona a simulation
+managing user interface [SMUI].
 
 \end{abstract}
 
 
 \section{Introduction}
+
 
 Comfortably traveling longer highway routes with an EV is currently a challenging endeavor. The charging
 infrastructure is still nascent, which potentially causes already long charging times to be prolonged by having to
@@ -108,4 +110,25 @@ closer information about a current charge event like the EV the duration used ch
 for the simulation user interface will be, providing aggregated and cumulative statistics about EV and charging
 stations.
 
+\section{Preliminary Literature Review}
+Automotive User Interfaces have been around since decades, consequently our goal will not be to reinvent the wheel but to examine existing standards and stick to those. Especially the once ISO – International Organization for standardization offers are a good source, when it comes to recommendations and best practice. The once defining an automotive user interface are worth mentioning. 
+
+\noindent
+\def\arraystretch{1.2}
+\begin{tabular}{p{0.45\linewidth} | p{0.45\linewidth}}
+Standard & Description \\\hline
+ISO 15005:2002 & Dialogue management principles and compliance procedures [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=34085}{4}]\\\hline
+ISO 15006:2011 & Specifications for in-vehicle auditory presentation [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=55322}{5}]\\\hline
+ISO 15007-1:2014 2:2014 & Measurement of driver visual behaviour [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=63220}{6}]\\\hline
+ISO/TR 16352:2005 & Warning systems [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=37859}{7}]\\\hline
+ISO 16673:2007 & Occlusion method to assess visual distraction [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=38035\#5}{8}]\\\hline
+ISO/TS 16951:2004 & on-board message priority [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=29024}{9}] \\\hline
+ISO 26022:2010 & Simulated lane change test to assess distraction [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=43361}{10}]
+\end{tabular}
+Obtaining those standards is not easy and cost intensive therefore it is unsure at this point how and if we can get access to them. Design knowledge, when it comes to  user interfaces, plays a key role, especially in vehicles, where distraction is a big factor  \cite{Developmentofanautomotiveuserinterfacedesignknowledgesystem}.
+ Another thing that needs to be taken into consideration in vehicles is situation awareness \cite{Skrypchuk2016}. A high challenge currently is compositing different heterogeneous User interfaces into existing systems \cite{Holstein2015}. Which also apply's to our prototype, since we also have to have in mind that it might be integrated into an existing System in the future.
+
+ 
+\bibilographystyle{IEEEtran}
+\bibliography{references}
 \end{document}
