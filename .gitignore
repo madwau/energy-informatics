@@ -4,3 +4,6 @@
 # LaTeX
 *.aux
 *.log
+
+# Generated
+proposal/*.pdf
