@@ -1,12 +1,12 @@
-%
-\documentclass{sig-alternate}
+\documentclass[hidelinks]{sig-alternate}
 \usepackage[utf8]{inputenc}
 \usepackage{cite}
+\usepackage{hyperref}
 
 \makeatletter
 \def\@copyrightspace{\relax}
 \makeatother
-\usepackage{hyperref}
+
 
 \begin{document}
 
@@ -87,6 +87,15 @@ the highway as they develop during the simulation. Moreover, an interface for th
 relevant vehicle and travel related information, should be conceived.
 
 
+\section{Research}
+
+Our main research question is as follows: What is the most suitable form of presentation for the data that is most
+relevant during the simulation and while driving respectively?
+
+There are a variety of aspects that need to be considered when designing a frontend for data-heavy applications,
+such as the highway traffic simulation we are dealing with.
+
+
 \section{Requirements}
 
 Driving user interfaces have often proven to be complicated or not so well integrated, therefore in our approach we
@@ -128,7 +137,7 @@ ISO 26022:2010 & Simulated lane change test to assess distraction [\href{http://
 Obtaining those standards is not easy and cost intensive therefore it is unsure at this point how and if we can get access to them. Design knowledge, when it comes to  user interfaces, plays a key role, especially in vehicles, where distraction is a big factor  \cite{Developmentofanautomotiveuserinterfacedesignknowledgesystem}.
  Another thing that needs to be taken into consideration in vehicles is situation awareness \cite{Skrypchuk2016}. A high challenge currently is compositing different heterogeneous User interfaces into existing systems \cite{Holstein2015}. Which also apply's to our prototype, since we also have to have in mind that it might be integrated into an existing System in the future.
 
- 
-\bibilographystyle{IEEEtran}
+
 \bibliography{references}
+\bibliographystyle{IEEEtran}
 \end{document}
