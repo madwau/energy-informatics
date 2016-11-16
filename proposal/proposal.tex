@@ -1,3 +1,4 @@
+%
 \documentclass[hidelinks]{sig-alternate}
 \usepackage[utf8]{inputenc}
 \usepackage{cite}
@@ -33,15 +34,15 @@
 
 \begin{abstract}
 
-As set in the OECD Environmental Outlook to 2050 \href{https://www.oecd.org/env/cc/49082173.pdf}{[1]}. CO2 reduction
+As set in the OECD Environmental Outlook to 2050  \cite{1}. \href{https://www.oecd.org/env/cc/49082173.pdf}{} CO2 reduction
 will be a major target for the OECD nations in the near future. Even though electric vehicles [EV], could play a big
 factor in achieving that goal, their sales are strikingly low in Germany. Only 0.39\% of new registration in germany
-were EV. \href{http://www.kba.de/DE/Statistik/Fahrzeuge/Neuzulassungen/neuzulassungen_node.html}{[2]} A major
+were EV \cite{2}.\href{http://www.kba.de/DE/Statistik/Fahrzeuge/Neuzulassungen/neuzulassungen_node.html}{} A major
 throwback with EV is there generally low range below 150km. To compensate that Victor del Razo and Hans-Arno
 Jacobsen, have outlined a method in their research paper Smart Charging Schedules for Highway Travel with Electric
 Vehicles, for scheduling charging stops during long distance travel e.g. 500km  so that the final destination is
-reached with the lowest cost possible, in their case cost travel time \href{https://www.i13.in.tum
-.de/fileadmin/w00bof/www/PDF/TTE_2016.pdf}{[3}]. But this project is missing some interface, that shows to the driver
+reached with the lowest cost possible, in their case cost travel time \cite{3}\href{https://www.i13.in.tum
+.de/fileadmin/w00bof/www/PDF/TTE_2016.pdf}{}. But this project is missing some interface, that shows to the driver
 basic information of the process e.g. a map of his position and charging stations. Besides that another sort of
 interface is desired, for someone that manages the simulation. Therefore this work will propose prototypes
 for two Front-Ends. One for the driver, a driver user interface [DUI] and one for the managing persona a simulation
@@ -116,13 +117,13 @@ Automotive User Interfaces have been around since decades, consequently our goal
 \def\arraystretch{1.2}
 \begin{tabular}{p{0.45\linewidth} | p{0.45\linewidth}}
 Standard & Description \\\hline
-ISO 15005:2002 & Dialogue management principles and compliance procedures [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=34085}{4}]\\\hline
-ISO 15006:2011 & Specifications for in-vehicle auditory presentation [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=55322}{5}]\\\hline
-ISO 15007-1:2014 2:2014 & Measurement of driver visual behaviour [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=63220}{6}]\\\hline
-ISO/TR 16352:2005 & Warning systems [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=37859}{7}]\\\hline
-ISO 16673:2007 & Occlusion method to assess visual distraction [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=38035\#5}{8}]\\\hline
-ISO/TS 16951:2004 & on-board message priority [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=29024}{9}] \\\hline
-ISO 26022:2010 & Simulated lane change test to assess distraction [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=43361}{10}]
+ISO 15005:2002 & Dialogue management principles and compliance procedures \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=34085}{}\\\hline
+ISO 15006:2011 & Specifications for in-vehicle auditory presentation \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=55322}{}\\\hline
+ISO 15007-1:2014 2:2014 & Measurement of driver visual behaviour \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=63220}{}\\\hline
+ISO/TR 16352:2005 & Warning systems \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=37859}{}\\\hline
+ISO 16673:2007 & Occlusion method to assess visual distraction \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=38035\#5}{}\\\hline
+ISO/TS 16951:2004 & on-board message priority \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=29024}{} \\\hline
+ISO 26022:2010 & Simulated lane change test to assess distraction \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=43361}{}
 \end{tabular}
 \vspace{3mm}
 
@@ -131,7 +132,7 @@ access to them. Design knowledge, when it comes to  user interfaces, plays a key
 distraction is a big factor  \cite{Developmentofanautomotiveuserinterfacedesignknowledgesystem}.
 
 Another thing that needs to be taken into consideration in vehicles is situation awareness \cite{Skrypchuk2016}. A
-high challenge currently is compositing different heterogeneous User interfaces into existing systems
+high challenge currently is composit different heterogeneous user interfaces into existing systems
 \cite{Holstein2015}. Which also applies to our prototype, since we also have to have in mind that it might be
 integrated into an existing system in the future.
 
