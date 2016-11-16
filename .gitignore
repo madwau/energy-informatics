@@ -4,6 +4,7 @@
 # LaTeX
 *.aux
 *.log
+*.out
 
 # Generated
 proposal/*.pdf
