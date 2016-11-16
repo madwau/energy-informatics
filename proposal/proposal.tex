@@ -108,6 +108,33 @@ when they are relevant in the context of time and location.
 A further part of our research will be getting an overview of the tools and frameworks that might help us in
 implementing our two interfaces and finally determining which if any is most suitable for our requirements.
 
+\section{Preliminary Literature Review}
+Automotive User Interfaces have been around since decades, consequently our goal will not be to reinvent the wheel but to examine existing standards and stick to those. Especially the once ISO – International Organization for standardization offers are a good source, when it comes to recommendations and best practice. The once defining an automotive user interface are worth mentioning. 
+
+\vspace{3mm}
+\noindent
+\def\arraystretch{1.2}
+\begin{tabular}{p{0.45\linewidth} | p{0.45\linewidth}}
+Standard & Description \\\hline
+ISO 15005:2002 & Dialogue management principles and compliance procedures [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=34085}{4}]\\\hline
+ISO 15006:2011 & Specifications for in-vehicle auditory presentation [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=55322}{5}]\\\hline
+ISO 15007-1:2014 2:2014 & Measurement of driver visual behaviour [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=63220}{6}]\\\hline
+ISO/TR 16352:2005 & Warning systems [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=37859}{7}]\\\hline
+ISO 16673:2007 & Occlusion method to assess visual distraction [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=38035\#5}{8}]\\\hline
+ISO/TS 16951:2004 & on-board message priority [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=29024}{9}] \\\hline
+ISO 26022:2010 & Simulated lane change test to assess distraction [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=43361}{10}]
+\end{tabular}
+\vspace{3mm}
+
+Obtaining those standards is not easy and cost intensive therefore it is unsure at this point how and if we can get
+access to them. Design knowledge, when it comes to  user interfaces, plays a key role, especially in vehicles, where
+distraction is a big factor  \cite{Developmentofanautomotiveuserinterfacedesignknowledgesystem}.
+
+Another thing that needs to be taken into consideration in vehicles is situation awareness \cite{Skrypchuk2016}. A
+high challenge currently is compositing different heterogeneous User interfaces into existing systems
+\cite{Holstein2015}. Which also applies to our prototype, since we also have to have in mind that it might be
+integrated into an existing system in the future.
+
 
 \section{Requirements}
 
@@ -115,6 +142,7 @@ Driving user interfaces have often proven to be complicated or not so well integ
 will try to keep it as minimalistic as possible but still have all necessary features onboard. Most important for the
 driver UI are the self-stats like time, current position of the car, probably integrated as a map with a display of
 possible charging stations around. The time and distance already traveled and the current speed of the vehicle.
+
 Furthermore, EV specific statuses, like the time waited for charging, the current battery level as well as an
 estimate of charging time and specific to the simulation the schedule status. Which means that the user will always
 be able to tell what the battery status is, his distance to the destination as well as the distance to the next
@@ -131,25 +159,6 @@ like energy consumed, energy produced, energy stored and energy bought. Another 
 closer information about a current charge event like the EV the duration used charging technology etc. A main focuse
 for the simulation user interface will be, providing aggregated and cumulative statistics about EV and charging
 stations.
-
-\section{Preliminary Literature Review}
-Automotive User Interfaces have been around since decades, consequently our goal will not be to reinvent the wheel but to examine existing standards and stick to those. Especially the once ISO – International Organization for standardization offers are a good source, when it comes to recommendations and best practice. The once defining an automotive user interface are worth mentioning. 
-
-\noindent
-\def\arraystretch{1.2}
-\begin{tabular}{p{0.45\linewidth} | p{0.45\linewidth}}
-Standard & Description \\\hline
-ISO 15005:2002 & Dialogue management principles and compliance procedures [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=34085}{4}]\\\hline
-ISO 15006:2011 & Specifications for in-vehicle auditory presentation [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=55322}{5}]\\\hline
-ISO 15007-1:2014 2:2014 & Measurement of driver visual behaviour [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=63220}{6}]\\\hline
-ISO/TR 16352:2005 & Warning systems [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=37859}{7}]\\\hline
-ISO 16673:2007 & Occlusion method to assess visual distraction [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=38035\#5}{8}]\\\hline
-ISO/TS 16951:2004 & on-board message priority [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=29024}{9}] \\\hline
-ISO 26022:2010 & Simulated lane change test to assess distraction [\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=43361}{10}]
-\end{tabular}
-Obtaining those standards is not easy and cost intensive therefore it is unsure at this point how and if we can get access to them. Design knowledge, when it comes to  user interfaces, plays a key role, especially in vehicles, where distraction is a big factor  \cite{Developmentofanautomotiveuserinterfacedesignknowledgesystem}.
- Another thing that needs to be taken into consideration in vehicles is situation awareness \cite{Skrypchuk2016}. A high challenge currently is compositing different heterogeneous User interfaces into existing systems \cite{Holstein2015}. Which also apply's to our prototype, since we also have to have in mind that it might be integrated into an existing System in the future.
-
 
 \bibliography{references}
 \bibliographystyle{IEEEtran}
