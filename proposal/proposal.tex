@@ -35,19 +35,21 @@
 
 \begin{abstract}
 
-As set in the OECD Environmental Outlook to 2050  \cite{1}. \href{https://www.oecd.org/env/cc/49082173.pdf}{} CO2 reduction
-will be a major target for the OECD nations in the near future. Even though electric vehicles [EV], could play a big
-factor in achieving that goal, their sales are strikingly low in Germany. Only 0.39\% of new registration in germany
-were EV \cite{2}.\href{http://www.kba.de/DE/Statistik/Fahrzeuge/Neuzulassungen/neuzulassungen_node.html}{} A major
-throwback with EV is there generally low range below 150km. To compensate that Victor del Razo and Hans-Arno
-Jacobsen, have outlined a method in their research paper Smart Charging Schedules for Highway Travel with Electric
-Vehicles, for scheduling charging stops during long distance travel e.g. 500km  so that the final destination is
-reached with the lowest cost possible, in their case cost travel time \cite{3}\href{https://www.i13.in.tum
-.de/fileadmin/w00bof/www/PDF/TTE_2016.pdf}{}. But this project is missing some interface, that shows to the driver
-basic information of the process e.g. a map of his position and charging stations. Besides that another sort of
-interface is desired, for someone that manages the simulation. Therefore this work will propose prototypes
-for two Front-Ends. One for the driver, a driver user interface [DUI] and one for the managing persona a simulation
-managing user interface [SMUI].
+As set in the OECD Environmental Outlook to 2050 \cite{1}, CO$_2$ reduction will be a major target for the OECD
+nations in the near future. Even though electric vehicles [EV] could play a big factor in achieving that goal, their
+sales are strikingly low in Germany. Only 0.39\% of new car registrations were EVs in 2015 \cite{2}.
+
+A decisive disadvantage of EVs is their generally low range of 150 km or less. In order to still efficiently travel
+long distances of 500 km and upwards, Victor del Razo and Hans-Arno Jacobsen outlined a method in their paper ``Smart
+Charging Schedules for Highway Travel with Electric Vehicles'' for scheduling charging stops on a highway, such that
+the total travel time is minimized \cite{3}.
+
+They developed a simulation framework that is in need of a graphic interface for the manager of the simulation.
+Additionally, a UI for the EV driver is required. It should display certain information, such as the EV's current
+position on the map or the upcoming charging stations.
+
+Therefore, this work comprises two prototypes for the respective frontends: a driver user interface [DUI] and a
+simulation managing user interface [SMUI].
 
 \end{abstract}
 
@@ -68,9 +70,8 @@ highway traffic.
 
 In the following, the general idea of the scheduling approach and the resulting mathematical model will be briefly
 outlined, mostly pertaining to the aspects that are relevant for the simulation tool. The problem is formulated as a
-shortest path problem and the scheduling algorithm is based on the A* search algorithm that is well known in the
-domain of graph traversal. The A* algorithm is extended with verification of constraints, such as EV energy
-limitations and driving speeds.
+shortest path problem and the scheduling algorithm is based on the A* search algorithm, which is extended with
+verification of constraints, such as EV energy limitations and driving speeds.
 
 The model has three main components: EVs, a highway and charging stations. The scheduling strategy is local to the EV
 but requires real-time communication with charging stations and a general highway-related information system. A set
@@ -97,7 +98,9 @@ relevant during the simulation and while driving respectively?
 There are a variety of aspects that need to be considered when designing a frontend for data-heavy applications,
 such as the highway traffic simulation tool we are dealing with. Perhaps most importantly, all relevant data
 pertaining to the state of the models used in the simulation should be accessible in a structured way that is intuitive
-for the user. Depending on the size of the simulation in terms of EVs and charging stations, this is not a trivial
+for the user.
+
+Depending on the size of the simulation in terms of EVs and charging stations, this is not a trivial
 task. More advanced considerations include how to illustrate relations between EVs and charging stations, how to
 visually communicate schedule changes to the user and how to present certain metrics in an aggregated form.
 
@@ -114,8 +117,8 @@ implementing our two interfaces and finally determining which if any is most sui
 \section{Preliminary Literature Review}
 
 Automotive User Interfaces have been around since decades, consequently our goal will not be to reinvent the wheel
-but to examine existing standards and stick to those. Especially the once ISO – International Organization for
-standardization offers are a good source, when it comes to recommendations and best practice. The once defining an
+but to examine existing standards and stick to those. Especially the ones ISO [International Organization for
+Standardization] offers are a good source when it comes to recommendations and best practice. The ones defining an
 automotive user interface are worth mentioning\cite{4}.
 
 \vspace{3mm}
@@ -129,47 +132,50 @@ ISO 15006:2011 & Specifications for in-vehicle auditory presentation \\\hline
 ISO 15007-1:2014 2:2014 & Measurement of driver visual behaviour \\\hline
 ISO/TR 16352:2005 & Warning systems \\\hline
 ISO 16673:2007 & Occlusion method to assess visual distractio \\\hline
-ISO/TS 16951:2004 & on-board message priority \\\hline
+ISO/TS 16951:2004 & On-board message priority \\\hline
 ISO 26022:2010 & Simulated lane change test to assess distraction
 \end{tabular}
-\vspace{3mm}
+\vspace{2mm}
 
-Obtaining those standards is not easy and cost intensive therefore it is unsure at this point how and if we can get
-access to them. Design knowledge, when it comes to  user interfaces, plays a key role, especially in vehicles, where
+Obtaining those standards is not easy and cost intensive, thus it is unsure at this point how and if we can get
+access to them. Design knowledge, when it comes to user interfaces, plays a key role, especially in vehicles, where
 distraction is a big factor \cite{Developmentofanautomotiveuserinterfacedesignknowledgesystem}.
 
-Another thing that needs to be taken into consideration in vehicles is situation awareness \cite{Skrypchuk2016}. A
-high challenge currently is composit different heterogeneous user interfaces into existing systems
-\cite{Holstein2015}. Which also applies to our prototype, since we also have to have in mind that it might be
-integrated into an existing system in the future.
+Another aspect that needs to be taken into consideration in vehicles is situation awareness \cite{Skrypchuk2016}. A
+current challenge is the integration of different heterogeneous user interfaces into existing systems
+\cite{Holstein2015}. This also applies to our prototype, since we need to keep in mind that it might be integrated
+into an existing system in the future.
 
 
 \section{Requirements}
 
 Driving user interfaces have often proven to be complicated or not so well integrated, therefore in our approach we
 will try to keep it as minimalistic as possible but still have all necessary features onboard. Most important for the
-driver UI are the self-stats like time, current position of the car, probably integrated as a map with a display of
-possible charging stations around. The time and distance already traveled and the current speed of the vehicle.
+driver UI are the own stats like time, current position of the car, probably integrated as a map with a display of
+possible charging stations around, the time and distance already traveled and the current speed of the vehicle.
 
-Furthermore, EV specific statuses, like the time waited for charging, the current battery level as well as an
-estimate of charging time and specific to the simulation the schedule status. Which means that the user will always
+Furthermore, EV specific statuses, such as the time waited for charging, the current battery level as well as an
+estimate of charging time and specific to the simulation the schedule status. This means that the user will always
 be able to tell what the battery status is, his distance to the destination as well as the distance to the next
-scheduled stop, so that he has an overview of the remaining trip. Besides the display of statuses, a possibility
-will be integrated, so the user can enter a destination, so that the system can then calculate the optimal charging
-route. In addition, it will then display the route and show the user scheduled stops. While the user is driving,
-there will be some sort of notification, so that he is informed in time, when he is getting close to a stop.
+scheduled stop, so that he has an overview of the remaining trip.
+
+Besides the staus display, a functionality will be integrated, so that the user can enter a destination and the
+system can then calculate the optimal charging route. In addition, it will then display the route and show the user
+scheduled stops. While the user is driving, there will be some sort of notification, so that he is informed in time,
+when he is getting close to a stop.
 
 The simulation user interface will show an overview of all charging stations. It will give detailed information for
-each charging station, so that he can follow the stations development. Information about the scheduling algorithm
-will be the main focus here, like queue length queue prediction of waiting cars, busy poles, arrived and leaved cars
-and cars that a currently plugged in. Furthermore, information about energy management will also play a key role,
-like energy consumed, energy produced, energy stored and energy bought. Another information that will be provided is
-closer information about a current charge event like the EV the duration used charging technology etc. A main focuse
-for the simulation user interface will be, providing aggregated and cumulative statistics about EV and charging
-stations.
+each charging station, so that he can follow the stations' development. Information about the scheduling algorithm
+will be the main focus here, like queue length, queue prediction of waiting cars, busy poles, arriving and departing
+cars and those that are currently plugged in.
+
+Furthermore, information about energy management will also play a key role, such as energy consumed, energy produced,
+energy stored and energy bought. Another information that will be provided is important data about a current
+charge event, such as the duration or charging technology used. A main focus for the simulation user interface
+will be providing aggregated and cumulative statistics about the EVs and charging stations.
 
 
-\section{Expectations}
+\section{Results}
 
 The primary goal of our project is to fulfill the aforementioned requirements. They specify the desired functionality
 that we aim to realize during the design and implementation of the frontend for the simulation manager and the EV
@@ -181,7 +187,8 @@ the promised functionality was indeed delivered.
 
 \section{Timeline}
 
-\vspace{3mm}
+\vspace{1mm}
+
 \noindent
 \def\arraystretch{1.5}
 \begin{tabular}{p{0.5\linewidth} | p{0.15\linewidth} | p{0.25\linewidth}}
@@ -206,7 +213,7 @@ Create slides for 30 min presentation & 1 week & \\\hline
 Write 20 page final report & 5 weeks &
 
 \end{tabular}
-\vspace{3mm}
+
 
 
 \bibliography{references}

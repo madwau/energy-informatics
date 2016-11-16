@@ -7,6 +7,3 @@
 *.out
 *.bbl
 *.blg
-
-# Generated
-proposal/*.pdf
