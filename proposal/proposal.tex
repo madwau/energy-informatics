@@ -93,7 +93,20 @@ Our main research question is as follows: What is the most suitable form of pres
 relevant during the simulation and while driving respectively?
 
 There are a variety of aspects that need to be considered when designing a frontend for data-heavy applications,
-such as the highway traffic simulation we are dealing with.
+such as the highway traffic simulation tool we are dealing with. Perhaps most importantly, all relevant data
+pertaining to the state of the models used in the simulation should be accessible in a structured way that is intuitive
+for the user. Depending on the size of the simulation in terms of EVs and charging stations, this is not a trivial
+task. More advanced considerations include how to illustrate relations between EVs and charging stations, how to
+visually communicate schedule changes to the user and how to present certain metrics in an aggregated form.
+
+The design of a user interface that is going to be used in an EV on the other hand, poses a completely different set
+of challenges. In our research, we will have to look at best practices for this specific use case in which the user
+can only take in a limited amount of information. The key will be to determine when to present which piece of
+data to the user. Certain crucial information points should most likely always be visible while others only occur
+when they are relevant in the context of time and location.
+
+A further part of our research will be getting an overview of the tools and frameworks that might help us in
+implementing our two interfaces and finally determining which if any is most suitable for our requirements.
 
 
 \section{Requirements}
