@@ -31,55 +31,80 @@
 
 
 \begin{abstract}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium mollis leo id dignissim. Ut nec dictum metus. Curabitur at pulvinar dolor. In hac habitasse platea dictumst. Ut sed enim est. Maecenas non gravida orci. Vestibulum vitae hendrerit lacus. Vivamus in viverra sapien. Maecenas id nunc ut lacus aliquet dictum. Curabitur id nulla tellus. Nullam et euismod metus. Etiam consectetur lorem a tellus ultrices iaculis.
+
+As set in the OECD Environmental Outlook to 2050 \href{https://www.oecd.org/env/cc/49082173.pdf}{[1]}.
+CO2 reduction will be a major target for the OECD nations in the near future. Even though electric vehicles [EV],
+could play a big factor in achieving that goal, their sales are strikingly low in Germany.
+Only 0.39\% of new registration in germany were EV.
+\href{http://www.kba.de/DE/Statistik/Fahrzeuge/Neuzulassungen/neuzulassungen_node.html}{[2]}
+A major throwback with EV is there generally low range below 150km.
+To compensate that Victor del Razo and Hans-Arno Jacobsen, have outlined a method in their research paper
+Smart Charging Schedules for Highway Travel with Electric Vehicles, for scheduling charging stops during
+long distance travel e.g. 500km  so that the final destination is reached with the lowest cost possible,
+in their case cost travel time \href{https://www.i13.in.tum.de/fileadmin/w00bof/www/PDF/TTE_2016.pdf}{[3}].
+But this project is missing some interface, that shows to the driver  basic information of the process e.g.
+a map of his position and charging stations. Besides that another sort of interface is desired, for someone
+that manages the simulation [SMI].
+Therefore this work will propose prototypes for two Front-Ends.
+One for the driver, a driver interface [DI] and one for the managing persona a simulation managing interface [SMI].
+
 \end{abstract}
 
 
 \section{Introduction}
 
+Comfortably traveling longer highway routes with an EV is currently a challenging endeavor. The charging
+infrastructure is still nascent, which potentially causes already long charging times to be prolonged by
+having to wait for a free spot at a charging station that runs at full capacity.
 
+The whitepaper ``Smart Charging Schedules for Highway Travel with Electric Vehicles'' by Victor del Razo and
+Hans-Arno Jacobsen first and foremost proposes a scheduling approach for EVs to decide on their charging stops during
+a trip on a highway where the charging infrastructure is limited. The goal is to reduce the total travel time for
+each EV. It then introduces a simulation framework that demonstrates the smart scheduling approach and on top of that
+aids the simulation process by providing generated trip data and support for time-dependent parameters that effect
+highway traffic.
 
+In the following, the general idea of the scheduling approach and the resulting mathematical model will be briefly
+outlined, mostly pertaining to the aspects that are relevant for the simulation tool. The problem is formulated as a
+shortest path problem and the scheduling algorithm is based on the A* search algorithm that is well known in the
+domain of graph traversal. The A* algorithm is extended with verification of constraints, such as EV energy
+limitations and driving speeds.
 
+The model has three main components: EVs, a highway and charging stations. The scheduling strategy is local to the EV
+but requires real-time communication with charging stations and a general highway-related information system. A set
+of charging stops and times is calculated and the relevant bookings are submitted to the charging stations together
+with the expected arrival time. The trip proceeds as planned unless an update schedule event is received.
 
+The EVs do not interact directly with each other, however, they indirectly influence each other via relying on the
+communicated information from the charging stations on their current occupancy level and the state of their reservation
+system. The reservation system supports dynamic updates as hinted at earlier.
 
+The simulation tool implements a representation of the described model and its behavior. Additionally, it accounts for
+highway exits/entries, variable highway speed limitations, and EV-specific characteristics.
 
-
-As set in the OECD Environmental Outlook to 2050
-\href{https://www.oecd.org/env/cc/49082173.pdf}{[1]}. CO2 reduction will be a major target for the OECD nations in the near future. Even though electric vehicles [EV], could play a big factor in achieving that goal, their sales are strikingly low in Germany. Only 0.39%
- \% of new registration in germany were EV.\ [\href{http://www.kba.de/DE/Statistik/Fahrzeuge/Neuzulassungen/neuzulassungen_node.html;jsessionid=C5C8768A8F3E6096066579264B58E7BF.live21302#rechts}{2}] A major throwback with EV is there generally low range below 150km. To compensate that Victor del Razo and 
- Hans-Arno Jacobsen, have outlined a method in their research paper Smart Charging Schedules for Highway Travel with
-Electric Vehicles, for scheduling charging stops during
-long distance travel e.g. 500km  so that the final destination is reached with
-the lowest cost possible,  
-in their case cost travel time\href{https://www.i13.in.tum.de/fileadmin/w00bof/www/PDF/TTE_2016.pdf}{ [3}]. But this project is missing some interface, that shows to the driver  basic information of the process e.g. a map of his position and charging stations. Besides that another sort of interface is desired, for someone that manages the simulation [SMI].
-Therefore this work will propose prototypes for two Front-Ends. One for the driver, a driver interface [DI] and one for the managing persona a simulation managing interface [SMI].
+Our task now is to design and implement a graphic interface that shows the states of all EVs and charging
+stations on the highway as they develop during the simulation. Moreover, an interface for the EV driver, that
+presents all relevant vehicle and travel related information, should be conceived.
 
 
 
 
 
 \section{Background and Significance}
-Our contribution for the project can be outlined with in the research questions stated as the follow. \begin{enumerate}
+Our contribution for the project can be outlined with in the research questions stated as the follow.
+
+\begin{enumerate}
 \item 
 How does a graphic interface for showing the progress of the
 simulation should look like?
 
-
-
-
-
-
 \item 
 What tools, paradigms, etc. should be used?
-
-
-Hello my name is
 
 \item 
 What are the existing standards for integration to vehicle bus?
 
 hello?
-
 \end{enumerate}
 
 \section{Preliminary Literature Review}
