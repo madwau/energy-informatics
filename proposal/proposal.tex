@@ -1,10 +1,9 @@
-%
 \documentclass[hidelinks]{sig-alternate}
+
 \usepackage[utf8]{inputenc}
 \usepackage{cite}
 \usepackage{hyperref}
-
-\definecolor{Gray}{gray}{0.85}
+\usepackage[table,dvipsnames]{xcolor}
 
 \makeatletter
 \def\@copyrightspace{\relax}
@@ -21,11 +20,11 @@
 
 \author{
 \alignauthor Adrian Thiesen\\
-       \affaddr{Fakultät für Informatik}\\
+       \affaddr{Department of Informatics}\\
        \affaddr{Technische Universität München}\\
        \email{adrian.thiesen@tum.de}
 \alignauthor Martin Wauligmann\\
-       \affaddr{Fakultät für Informatik}\\
+       \affaddr{Department of Informatics}\\
        \affaddr{Technische Universität München}\\
        \email{wauligma@in.tum.de}
 }
@@ -60,7 +59,7 @@ Comfortably traveling longer highway routes with an EV is currently a challengin
 infrastructure is still nascent, which potentially causes already long charging times to be prolonged by having to
 wait for a free spot at a charging station that runs at full capacity.
 
-The whitepaper ``Smart Charging Schedules for Highway Travel with Electric Vehicles'' by Victor del Razo and
+The whitepaper ``Smart Charging Schedules for Highway Travel with Electric Vehicles'' \cite{3} by Victor del Razo and
 Hans-Arno Jacobsen first and foremost proposes a scheduling approach for EVs to decide on their charging stops during
 a trip on a highway where the charging infrastructure is limited. The goal is to reduce the total travel time for
 each EV. It then introduces a simulation framework that demonstrates the smart scheduling approach and on top of that
@@ -111,27 +110,33 @@ when they are relevant in the context of time and location.
 A further part of our research will be getting an overview of the tools and frameworks that might help us in
 implementing our two interfaces and finally determining which if any is most suitable for our requirements.
 
+
 \section{Preliminary Literature Review}
-Automotive User Interfaces have been around since decades, consequently our goal will not be to reinvent the wheel but to examine existing standards and stick to those. Especially the once ISO – International Organization for standardization offers are a good source, when it comes to recommendations and best practice. The once defining an automotive user interface are worth mentioning. 
+
+Automotive User Interfaces have been around since decades, consequently our goal will not be to reinvent the wheel
+but to examine existing standards and stick to those. Especially the once ISO – International Organization for
+standardization offers are a good source, when it comes to recommendations and best practice. The once defining an
+automotive user interface are worth mentioning\cite{4}.
 
 \vspace{3mm}
 \noindent
-\def\arraystretch{1.2}
+\def\arraystretch{1.5}
 \begin{tabular}{p{0.45\linewidth} | p{0.45\linewidth}}
-Standard & Description \\\hline
-ISO 15005:2002 & Dialogue management principles and compliance procedures \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=34085}{}\\\hline
-ISO 15006:2011 & Specifications for in-vehicle auditory presentation \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=55322}{}\\\hline
-ISO 15007-1:2014 2:2014 & Measurement of driver visual behaviour \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=63220}{}\\\hline
-ISO/TR 16352:2005 & Warning systems \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=37859}{}\\\hline
-ISO 16673:2007 & Occlusion method to assess visual distraction \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=38035\#5}{}\\\hline
-ISO/TS 16951:2004 & on-board message priority \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=29024}{} \\\hline
-ISO 26022:2010 & Simulated lane change test to assess distraction \cite{3}\href{http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=43361}{}
+\rowcolor{Gray!25}
+\textbf{Standard} & \textbf{Description} \\\hline
+ISO 15005:2002 & Dialogue management principles and compliance procedures \\\hline
+ISO 15006:2011 & Specifications for in-vehicle auditory presentation \\\hline
+ISO 15007-1:2014 2:2014 & Measurement of driver visual behaviour \\\hline
+ISO/TR 16352:2005 & Warning systems \\\hline
+ISO 16673:2007 & Occlusion method to assess visual distractio \\\hline
+ISO/TS 16951:2004 & on-board message priority \\\hline
+ISO 26022:2010 & Simulated lane change test to assess distraction
 \end{tabular}
 \vspace{3mm}
 
 Obtaining those standards is not easy and cost intensive therefore it is unsure at this point how and if we can get
 access to them. Design knowledge, when it comes to  user interfaces, plays a key role, especially in vehicles, where
-distraction is a big factor  \cite{Developmentofanautomotiveuserinterfacedesignknowledgesystem}.
+distraction is a big factor \cite{Developmentofanautomotiveuserinterfacedesignknowledgesystem}.
 
 Another thing that needs to be taken into consideration in vehicles is situation awareness \cite{Skrypchuk2016}. A
 high challenge currently is composit different heterogeneous user interfaces into existing systems
@@ -163,36 +168,48 @@ closer information about a current charge event like the EV the duration used ch
 for the simulation user interface will be, providing aggregated and cumulative statistics about EV and charging
 stations.
 
+
+\section{Expectations}
+
+The primary goal of our project is to fulfill the aforementioned requirements. They specify the desired functionality
+that we aim to realize during the design and implementation of the frontend for the simulation manager and the EV
+driver respectively.
+
+The result of our work will be in the form of two prototypes that can be tested by a user in order to assess whether
+the promised functionality was indeed delivered.
+
+
 \section{Timeline}
+
 \vspace{3mm}
 \noindent
-\def\arraystretch{1.0}
-\begin{tabular}{p{0.45\linewidth} | p{0.45\linewidth}}
-\rowcolor{Grey}
-Objective & Schedule & Deadline\\\hline
-Phase 1: Prewriting
- & 2 week & 2016-16-11 \\\hline
-First research and examination of literature sources
- & 2 weeks &  \\\hline
-Research context and background & 1 week &  \\\hline
-Create a 2-page preliminary statement  & 1 week &  \\\hline
-Phase 2: Prototyping & 6 weeks & 2016-28-12  \\\hline
-Driver user interface 
+\def\arraystretch{1.5}
+\begin{tabular}{p{0.5\linewidth} | p{0.15\linewidth} | p{0.25\linewidth}}
+\rowcolor{Gray!25}
+\textbf{Objective} & \textbf{Time} & \textbf{Deadline} \\\hline
 
-concept \& mock-up& 1 week &  \\\hline
-Driver user interface prototyping & 2 weeks&  \\\hline
-Simulation
-managing user interface 
+\textbf{Phase 1: Proposal} & \textbf{2 weeks} & \textbf{2016-11-16} \\\hline
+First research and examination of literature sources & 6 days &  \\\hline
+Research context and background & 5 days &  \\\hline
+Draft a 2 page proposal  & 3 days &  \\\hline
 
-concept \& mock-up & 1 week&  \\\hline
-Simulation
-managing user interface prototyping & 2 weeks &  \\\hline
-Phase 3:\  Writing & 1 week & 2017-18-01 \\\hline
-a & a & a \\\hline
+\textbf{Phase 2: Prototyping} & \textbf{8 weeks} & \textbf{2016-01-11}  \\\hline
+Driver user interface concept \& mock-up& 1 week &  \\\hline
+Driver user interface prototyping & 3 weeks&  \\\hline
+Simulation managing user interface concept \& mock-up & 1 week&  \\\hline
+Simulation managing user interface prototyping & 3 weeks &  \\\hline
+
+\textbf{Phase 3: Presentation} & \textbf{1 week} & \textbf{2017-01-17} \\\hline
+Create slides for 30 min presentation & 1 week & \\\hline
+
+\textbf{Phase 4: Report} & \textbf{5 weeks} & \textbf{2017-03-05} \\\hline
+Write 20 page final report & 5 weeks &
+
 \end{tabular}
 \vspace{3mm}
 
 
 \bibliography{references}
 \bibliographystyle{IEEEtran}
+
 \end{document}
