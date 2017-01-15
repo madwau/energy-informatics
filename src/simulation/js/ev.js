@@ -96,7 +96,7 @@ function EV(map, origin, destination) {
         }
 
         return info;
-    }
+    };
 
     this.start();
 }
