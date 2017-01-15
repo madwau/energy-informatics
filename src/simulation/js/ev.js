@@ -1,4 +1,4 @@
-function EV(map) {
+function EV(map, origin, destination) {
     var EV = this;
 
     var stats = {
@@ -16,7 +16,7 @@ function EV(map) {
         schedule_status: undefined
     };
 
-    this.start = function (origin, destination) {
+    this.start = function () {
         var directions = new google.maps.DirectionsService();
 
         var request = {
@@ -27,13 +27,13 @@ function EV(map) {
 
         directions.route(request, function (result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
-                EV.autoUpdate(map, result.routes[0].overview_path);
+                EV.autoUpdate(map, result.routes[0].legs);
             }
         });
     };
 
-    this.autoUpdate = function (map, pathCoords) {
-        var i, route, marker, panel;
+    this.autoUpdate = function (map, legs) {
+        var route, marker, panel;
 
         route = new google.maps.Polyline({
             path: [],
@@ -56,15 +56,22 @@ function EV(map) {
 
         EV.initStats(panel, marker);
 
-        for (i = 0; i < pathCoords.length; i++) {
-            setTimeout(function (coords) {
+        var timeUnit = 0;
 
-                route.getPath().push(coords);
-                EV.moveMarker(map, marker, coords);
-                EV.updateStats(panel);
+        for (var i = 0; i < legs.length; i++) {
+            for (var j = 0; j < legs[i].steps.length; j++) {
+                for (var k = 0; k < legs[i].steps[j].path.length; k++) {
+                    setTimeout(function (coords) {
 
-            }, 200 * i, pathCoords[i]);
+                        route.getPath().push(coords);
+                        EV.moveMarker(map, marker, coords);
+                        EV.updateStats(panel);
+
+                    }, 200 * timeUnit++, legs[i].steps[j].path[k]);
+                }
+            }
         }
+
     };
 
     this.moveMarker = function (map, marker, latlng) {
@@ -90,4 +97,6 @@ function EV(map) {
 
         return info;
     }
+
+    this.start();
 }
