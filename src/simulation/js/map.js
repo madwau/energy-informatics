@@ -19,28 +19,3 @@ Map.prototype.init = function () {
         }
     });
 };
-
-$(document).ready(function () {
-    // Init map
-    var map = new Map();
-    map.init();
-
-
-    // List of electric vehicles (EV)
-    var ev = [];
-
-    for (var i = 0; i < 10; i++) {
-
-        var position = {
-            lat: 48.1373930 + i * 0.5,
-            lng: 11.5754480 - i * 0.2
-        };
-
-        ev[i] = new EV(map.map, position);
-        ev[i].init();
-    }
-
-
-    // List of charging stations (CS)
-    var cs = []
-});

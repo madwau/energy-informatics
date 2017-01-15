@@ -1,9 +1,7 @@
-function EV(map, position) {
-    this.map = map;
-    this.position = position;
-    this.marker = undefined;
+function EV(map) {
+    var EV = this;
 
-    this.stats = {
+    var stats = {
         time: undefined,
         position: undefined,
         geo_position: undefined,
@@ -16,46 +14,80 @@ function EV(map, position) {
         speed: undefined,
         driving_flag: undefined,
         schedule_status: undefined
-    }
-}
-
-EV.prototype.init = function () {
-    this.marker = new google.maps.Marker({
-        map: this.map,
-        position: this.position,
-        icon: config.markersFolder + config.markers['car']
-    });
-
-    this.initStats();
-
-    setInterval(this.animate.bind(this), 100);
-};
-
-EV.prototype.update = function (position) {
-    this.marker.setPosition(position);
-};
-
-EV.prototype.animate = function () {
-    var newPosition = {
-        lat: this.marker.getPosition().lat() + 0.0001,
-        lng: this.marker.getPosition().lng() + 0.0001
     };
 
-    this.update(newPosition);
-};
+    this.start = function (origin, destination) {
+        var directions = new google.maps.DirectionsService();
 
-EV.prototype.initStats = function () {
-    var info = "";
+        var request = {
+            origin: origin,
+            destination: destination,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
 
-    for (var key in this.stats) {
-        info += key + ": " + this.stats[key] + "<br>";
+        directions.route(request, function (result, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                EV.autoUpdate(map, result.routes[0].overview_path);
+            }
+        });
+    };
+
+    this.autoUpdate = function (map, pathCoords) {
+        var i, route, marker, panel;
+
+        route = new google.maps.Polyline({
+            path: [],
+            geodesic: true,
+            strokeColor: '#000000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            editable: false,
+            map: map
+        });
+
+        marker = new google.maps.Marker({
+            map: map,
+            icon: config.markers.car
+        });
+
+        panel = new google.maps.InfoWindow({
+            content: EV.getStats()
+        });
+
+        EV.initStats(panel, marker);
+
+        for (i = 0; i < pathCoords.length; i++) {
+            setTimeout(function (coords) {
+
+                route.getPath().push(coords);
+                EV.moveMarker(map, marker, coords);
+                EV.updateStats(panel);
+
+            }, 200 * i, pathCoords[i]);
+        }
+    };
+
+    this.moveMarker = function (map, marker, latlng) {
+        marker.setPosition(latlng);
+    };
+
+    this.initStats = function (panel, marker) {
+        marker.addListener('click', function () {
+            panel.open(this.map, this);
+        });
+    };
+
+    this.updateStats = function (panel) {
+        panel.setContent(EV.getStats());
+    };
+
+    this.getStats = function () {
+        var info = "";
+
+        for (var key in stats) {
+            info += key + ": " + stats[key] + "<br>";
+        }
+
+        return info;
     }
-
-    var panel = new google.maps.InfoWindow({
-        content: info
-    });
-
-    this.marker.addListener('click', function () {
-        panel.open(this.map, this);
-    });
-};
+}
