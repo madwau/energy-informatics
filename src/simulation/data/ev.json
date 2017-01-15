@@ -1,0 +1,29 @@
+{
+    "stats": {
+        "time": null,
+        "position": null,
+        "geo_position": null,
+        "distance_travelled": null,
+        "time_travelled": null,
+        "time_waited": null,
+        "time_charged": null,
+        "time_driven": null,
+        "battery_level": null,
+        "speed": null,
+        "driving_flag": null,
+        "schedule_status": null
+    },
+
+    "schedule": [
+        {
+            "id": 1,
+            "data": {
+                "station": null,
+                "km": null,
+                "target_soc": null,
+                "type": null,
+                "range": null
+            }
+        }
+    ]
+}

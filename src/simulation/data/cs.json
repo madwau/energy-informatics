@@ -1,0 +1,32 @@
+{
+    "stats": {
+        "time": null,
+        "queue_length": null,
+        "busy_poles_fc": null,
+        "busy_poles_tsc": null,
+        "arrived_cars": null,
+        "leaving_cars": null,
+        "queued_cars": null,
+        "plugged_cars": null,
+        "energy_consumed": null,
+        "energy_produced": null,
+        "energy_stored": null,
+        "energy_bought": null,
+        "queue_prediction_fc": null,
+        "queue_prediction_tsc": null
+    },
+
+    "schedule": [
+        {
+            "id": 1,
+            "data": {
+                "ev": null,
+                "start": null,
+                "duration": null,
+                "charging_technology": null,
+                "binding": null,
+                "confirmed": null
+            }
+        }
+    ]
+}
