@@ -75,7 +75,6 @@ function EV(map, id, start_time, origin, destination) {
                 }
             }
         }
-
     };
 
     this.moveMarker = function (map, marker, latlng) {

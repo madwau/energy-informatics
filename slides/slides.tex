@@ -188,8 +188,229 @@ $(document).ready(function () {
     cs.push(new CS(map.map, 2, "Nuremberg"));
     cs.push(new CS(map.map, 3, "Bayreuth"));
     cs.push(new CS(map.map, 4, "Osterfeld"));
-    cs.push(new CS(map.map, 5, "Rabenstein"));
 });
+\end{minted}
+
+\end{frame}
+\clearpage
+
+
+
+\begin{frame}[fragile]
+\frametitle{map.js}
+
+\begin{minted}{javascript}
+function Map() {
+    this.init = function () {
+
+        // Create new Google Map
+        this.map = new google.maps.Map(document.getElementById(config.mapID), {
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        // Center and fit country in viewport
+        var geocoder = new google.maps.Geocoder();
+        var map = this.map;
+
+        geocoder.geocode({'address': config.mapCenter}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                map.fitBounds(results[0].geometry.viewport);
+            }
+        });
+    };
+}
+\end{minted}
+
+\end{frame}
+\clearpage
+
+
+
+\begin{frame}[fragile]
+\frametitle{cs.js}
+
+\begin{minted}{javascript}
+function CS(map, id, location) {
+    var CS = this;
+
+    var stats = {
+        id: id,
+        time: '',
+        queue_length: '',
+        busy_poles_fc: '',
+        busy_poles_tsc: '',
+        arrived_cars: '',
+        leaving_cars: '',
+        queued_cars: '',
+        plugged_cars: '',
+        energy_consumed: '',
+        energy_produced: '',
+        energy_stored: '',
+        energy_bought: '',
+        queue_prediction_fc: '',
+        queue_prediction_tsc: ''
+    };
+\end{minted}
+
+\end{frame}
+\clearpage
+
+
+
+\begin{frame}[fragile]
+\frametitle{cs.js}
+
+\begin{minted}{javascript}
+    this.init = function () {
+        var marker = new google.maps.Marker({
+            map: map,
+            icon: config.markers.battery
+        });
+
+        CS.setPosition(marker);
+
+        var panel = new google.maps.InfoWindow({
+            content: CS.getStats()
+        });
+
+        CS.initStats(panel, marker);
+    };
+\end{minted}
+
+\end{frame}
+\clearpage
+
+
+
+\begin{frame}[fragile]
+\frametitle{cs.js}
+
+\begin{minted}{javascript}
+    this.getStats = function () {
+        var info = '';
+
+        for (var key in stats) {
+            info += key + ': ' + stats[key] + '<br>';
+        }
+
+        return info;
+    };
+\end{minted}
+
+\end{frame}
+\clearpage
+
+
+
+\begin{frame}[fragile]
+\frametitle{ev.js}
+
+\begin{minted}{javascript}
+function EV(map, id, start_time, origin, destination) {
+    var EV = this;
+
+    var stats = {
+        id: id,
+        time: '',
+        position: '',
+        geo_position: '',
+        distance_travelled: '',
+        time_travelled: '',
+        time_waited: '',
+        time_charged: '',
+        time_driven: '',
+        battery_level: '',
+        speed: '',
+        driving_flag: '',
+        schedule_status: ''
+    };
+\end{minted}
+
+\end{frame}
+\clearpage
+
+
+
+\begin{frame}[fragile]
+\frametitle{ev.js}
+
+\begin{minted}{javascript}
+    this.start = function () {
+        var directions = new google.maps.DirectionsService();
+
+        var request = {
+            origin: origin,
+            destination: destination,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+
+        setTimeout(function () {
+            directions.route(request, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    EV.autoUpdate(map, result.routes[0].legs);
+                }
+            });
+        }, start_time * 1000);
+    };
+\end{minted}
+
+\end{frame}
+\clearpage
+
+
+
+\begin{frame}[fragile]
+\frametitle{ev.js}
+
+\begin{minted}{javascript}
+    this.autoUpdate = function (map, legs) {
+        var route, marker, panel;
+
+        route = new google.maps.Polyline({
+            path: [],
+            geodesic: true,
+            strokeColor: '#000000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            editable: false,
+            map: map
+        });
+
+        marker = new google.maps.Marker({
+            map: map,
+            icon: config.markers.car
+        });
+
+        ...
+\end{minted}
+
+\end{frame}
+\clearpage
+
+
+
+\begin{frame}[fragile]
+\frametitle{ev.js}
+
+\begin{minted}{javascript}
+        ...
+
+        var timeUnit = 0;
+
+        for (var i = 0; i < legs.length; i++) {
+            for (var j = 0; j < legs[i].steps.length; j++) {
+                for (var k = 0; k < legs[i].steps[j].path.length; k++) {
+                    setTimeout(function (coords) {
+
+                        route.getPath().push(coords);
+                        EV.moveMarker(map, marker, coords);
+                        EV.updateStats(panel);
+
+                    }, 50 * timeUnit++, legs[i].steps[j].path[k]);
+                }
+            }
+        }
 \end{minted}
 
 \end{frame}
