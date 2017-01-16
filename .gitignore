@@ -7,6 +7,9 @@
 *.out
 *.bbl
 *.blg
+*.nav
+*.snm
+*.toc
 
 # generated css
 src/simulation/css/main.css
