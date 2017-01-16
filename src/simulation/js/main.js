@@ -7,8 +7,12 @@ $(document).ready(function () {
     // Electric vehicles traveling from A to B
     var ev = [];
 
-    ev.push(new EV(map.map, 1, "Munich", "Berlin"));
-    ev.push(new EV(map.map, 2, "Berlin", "Munich"));
+    ev.push(new EV(map.map, 1, 0, "Munich", "Berlin"));
+    ev.push(new EV(map.map, 2, 10, "Munich", "Berlin"));
+    ev.push(new EV(map.map, 3, 40, "Munich", "Berlin"));
+    ev.push(new EV(map.map, 4, 60, "Munich", "Berlin"));
+    ev.push(new EV(map.map, 5, 0, "Berlin", "Munich"));
+    ev.push(new EV(map.map, 6, 15, "Berlin", "Munich"));
 
 
     // Charging stations at location C

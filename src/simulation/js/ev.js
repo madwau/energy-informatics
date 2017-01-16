@@ -1,4 +1,4 @@
-function EV(map, id, origin, destination) {
+function EV(map, id, start_time, origin, destination) {
     var EV = this;
 
     var stats = {
@@ -26,11 +26,14 @@ function EV(map, id, origin, destination) {
             travelMode: google.maps.TravelMode.DRIVING
         };
 
-        directions.route(request, function (result, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
-                EV.autoUpdate(map, result.routes[0].legs);
-            }
-        });
+        setTimeout(function () {
+            directions.route(request, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    EV.autoUpdate(map, result.routes[0].legs);
+                }
+            });
+        }, start_time * 1000);
+
     };
 
     this.autoUpdate = function (map, legs) {
