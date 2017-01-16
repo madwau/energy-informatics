@@ -3,7 +3,6 @@ $(document).ready(function () {
     // Init map
     var map = new Map();
 
-
     // Electric vehicles traveling from A to B
     var ev = [];
 
@@ -13,7 +12,6 @@ $(document).ready(function () {
     ev.push(new EV(map.map, 4, 60, "Munich", "Berlin"));
     ev.push(new EV(map.map, 5, 0, "Berlin", "Munich"));
     ev.push(new EV(map.map, 6, 15, "Berlin", "Munich"));
-
 
     // Charging stations at location C
     var cs = [];
