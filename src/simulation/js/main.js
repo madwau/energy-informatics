@@ -7,16 +7,16 @@ $(document).ready(function () {
     // Electric vehicles traveling from A to B
     var ev = [];
 
-    ev.push(new EV(map.map, "Munich", "Berlin"));
-    ev.push(new EV(map.map, "Berlin", "Munich"));
+    ev.push(new EV(map.map, 1, "Munich", "Berlin"));
+    ev.push(new EV(map.map, 2, "Berlin", "Munich"));
 
 
     // Charging stations at location C
     var cs = [];
 
-    cs.push(new CS(map.map, "Ingolstadt"));
-    cs.push(new CS(map.map, "Nuremberg"));
-    cs.push(new CS(map.map, "Bayreuth"));
-    cs.push(new CS(map.map, "Rabenstein"));
-    cs.push(new CS(map.map, "Osterfeld"));
+    cs.push(new CS(map.map, 1, "Ingolstadt"));
+    cs.push(new CS(map.map, 2, "Nuremberg"));
+    cs.push(new CS(map.map, 3, "Bayreuth"));
+    cs.push(new CS(map.map, 4, "Osterfeld"));
+    cs.push(new CS(map.map, 5, "Rabenstein"));
 });

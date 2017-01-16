@@ -1,32 +1,33 @@
-function CS(map, location) {
+function CS(map, id, location) {
     var CS = this;
 
     var stats = {
-        time: undefined,
-        queue_length: undefined,
-        busy_poles_fc: undefined,
-        busy_poles_tsc: undefined,
-        arrived_cars: undefined,
-        leaving_cars: undefined,
-        queued_cars: undefined,
-        plugged_cars: undefined,
-        energy_consumed: undefined,
-        energy_produced: undefined,
-        energy_stored: undefined,
-        energy_bought: undefined,
-        queue_prediction_fc: undefined,
-        queue_prediction_tsc: undefined
+        id: id,
+        time: '',
+        queue_length: '',
+        busy_poles_fc: '',
+        busy_poles_tsc: '',
+        arrived_cars: '',
+        leaving_cars: '',
+        queued_cars: '',
+        plugged_cars: '',
+        energy_consumed: '',
+        energy_produced: '',
+        energy_stored: '',
+        energy_bought: '',
+        queue_prediction_fc: '',
+        queue_prediction_tsc: ''
     };
 
     var schedule = {
         booking_id: 1,
         data: {
-            ev: undefined,
-            start: undefined,
-            duration: undefined,
-            charging_technology: undefined,
-            binding: undefined,
-            confirmed: undefined
+            ev: '',
+            start: '',
+            duration: '',
+            charging_technology: '',
+            binding: '',
+            confirmed: ''
         }
     };
 

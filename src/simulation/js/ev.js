@@ -1,19 +1,20 @@
-function EV(map, origin, destination) {
+function EV(map, id, origin, destination) {
     var EV = this;
 
     var stats = {
-        time: undefined,
-        position: undefined,
-        geo_position: undefined,
-        distance_travelled: undefined,
-        time_travelled: undefined,
-        time_waited: undefined,
-        time_charged: undefined,
-        time_driven: undefined,
-        battery_level: undefined,
-        speed: undefined,
-        driving_flag: undefined,
-        schedule_status: undefined
+        id: id,
+        time: '',
+        position: '',
+        geo_position: '',
+        distance_travelled: '',
+        time_travelled: '',
+        time_waited: '',
+        time_charged: '',
+        time_driven: '',
+        battery_level: '',
+        speed: '',
+        driving_flag: '',
+        schedule_status: ''
     };
 
     this.start = function () {
@@ -67,7 +68,7 @@ function EV(map, origin, destination) {
                         EV.moveMarker(map, marker, coords);
                         EV.updateStats(panel);
 
-                    }, 200 * timeUnit++, legs[i].steps[j].path[k]);
+                    }, 50 * timeUnit++, legs[i].steps[j].path[k]);
                 }
             }
         }
