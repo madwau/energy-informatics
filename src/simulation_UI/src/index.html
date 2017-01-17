@@ -181,11 +181,19 @@
             </style>
         </head>
         <body>
-        <div id="charging">(charging state unknown)</div>
+        <div id="charging">(charging state unknown) </div>
         <div id="level">(battery level unknown)</div>
         <div id="dischargingTime">(discharging time unknown)</div>
         <div id="chatbox"></div>
-        <button onclick="setButtonPressed();">Try it</button>
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+        form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+        form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+        form { background: 	#696969; padding: 3px; width: 100%; }
+        </style>
+        <form action="">
+            <input id="m" value="Stadion Nürnberg" autocomplete="off" /><button>Get directions</button>
+        </form>
         </div>
 
         <div id="map" style="position:absolute; width:49%; height:100%; background:grey" ></div>
@@ -194,9 +202,9 @@
         <script  type="text/javascript" charset="UTF-8" >
             window.onload = function () {
                 function updateBatteryStatus(battery) {
-                    document.querySelector('#charging').textContent = battery.charging ? 'charging' : 'not charging';
-                    document.querySelector('#level').textContent = battery.level;
-                    document.querySelector('#dischargingTime').textContent = battery.dischargingTime / 60;
+                    document.querySelector('#charging').textContent = battery.charging ? 'Charging status: charging' : 'Charging status: not charging';
+                    document.querySelector('#level').textContent ="Battery level: "+ battery.level ;
+                    document.querySelector('#dischargingTime').textContent ="Discharging time: "+ battery.dischargingTime / 60;
                 }
 
                 navigator.getBattery().then(function(battery) {
@@ -427,14 +435,15 @@
                     waypointLabels = [],
                     i;
 
-                waypoints[1].label = "Stop: charging station Aral";
+                waypoints[1].label = "Stop: charging station Aral Tankstelle Christiane Wentzlaff ";
                 waypoints[2].label = "Ziel: Stadion Nürnberg";
 
                 for (i = 0;  i < waypoints.length; i += 1) {
                     waypointLabels.push(waypoints[i].label)
                 }
 
-                nodeH3.textContent = waypointLabels.join(' - ');
+                nodeH3.textContent = waypointLabels.join('   -   ');
+
 
                 routeInstructionsContainer.innerHTML = '';
                 routeInstructionsContainer.appendChild(nodeH3);
