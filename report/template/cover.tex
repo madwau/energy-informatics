@@ -1,0 +1,67 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% EINSTELLUNGEN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Titel}{Interactive Front-End for EV Traffic\\Simulation in Highways}
+\newcommand{\Fakultaet}{%
+    Department of Informatics}
+\newcommand{\Ort}{%
+    Munich}
+\newcommand{\Datum}{%
+    March 5, 2017}
+
+% Seitenränder:
+\newcommand{\SeitenrandCoverOben}{43.5mm}
+\newcommand{\SeitenrandCoverRechts}{20mm}
+\newcommand{\SeitenrandCoverLinks}{20mm}
+\newcommand{\SeitenrandCoverUnten}{10mm}
+
+\newcommand{\UniversitaetLogoBreite}{19mm}
+\newcommand{\UniversitaetLogoHoehe}{1cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DOKUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\afterpage{%
+\newgeometry{a4paper,
+    top=\SeitenrandCoverOben,
+    bottom=\SeitenrandCoverUnten,
+    inner=\SeitenrandCoverLinks,
+    outer=\SeitenrandCoverRechts,
+    foot=0cm,
+    head=0cm}
+
+\textblockorigin{\SeitenrandCoverLinks}{\SeitenrandCoverOben} % Ursprung für Positionierung
+
+\setlength{\parindent}{0pt}
+%\setlength{\baselineskip}{32pt}
+\setlength{\parskip}{\baselineskip}
+\TabPositions{4cm}
+\pagestyle{empty}
+
+\begin{textblock*}{\UniversitaetLogoBreite}[1,0](\textwidth-1mm, 2cm-\SeitenrandCoverOben)%
+    \raggedleft\includegraphics{./logos/tum.pdf}%
+\end{textblock*}
+
+
+\begin{textblock*}{\textwidth}[0,0](0cm, 0cm)%
+\setstretch{2}
+{\Huge\bfseries{\Titel}}
+
+\vspace*{14pt}
+{\fontsize{16pt}{27pt}\selectfont\textbf{\Author}}
+\end{textblock*}
+
+
+\vspace*{92.2mm}
+\fontsize{15pt}{17.5pt}\selectfont%
+Energy Informatics Seminar Report\\\\
+\Fakultaet{}\\
+Technische Universität München
+
+
+\clearpage
+\restoregeometry
+}
+\restoregeometry

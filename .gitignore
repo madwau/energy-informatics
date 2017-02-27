@@ -17,3 +17,9 @@
 
 # generated css
 src/simulation/css/main.css
+
+# swp files
+*.swp
+
+# report
+report/build/*
