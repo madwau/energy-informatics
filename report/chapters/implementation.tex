@@ -121,6 +121,8 @@ The \texttt{url} property of the image is given relative to the project director
 
 The main application routine consists of constructing an object \texttt{map} of our \texttt{Map} class, creating empty lists that will hold the electric vehicles (EVs) and charging stations (CSs), and finally creating those EVs and CSs with certain parameters.
 
+The constructor of class \texttt{Map} does not need any arguments. Since there is only one map at a time, those settings are controlled via the project-wide \texttt{config.js} file instead.
+
 \begin{minted}{javascript}
 $(document).ready(function () {
 
@@ -130,10 +132,17 @@ $(document).ready(function () {
     // Electric vehicles traveling from A to B
     var ev = [];
 
-    ev.push(new EV(map.map, 1, 0,  "Munich", "Berlin"));
-    ev.push(new EV(map.map, 2, 10, "Munich", "Berlin"));
-    ev.push(new EV(map.map, 3, 0,  "Berlin", "Munich"));
-    ev.push(new EV(map.map, 4, 15, "Berlin", "Munich"));
+    ev.push(
+      new EV(map.map, 1,  0, "Munich", "Berlin"));
+
+    ev.push(
+      new EV(map.map, 2, 10, "Munich", "Berlin"));
+
+    ev.push(
+      new EV(map.map, 3,  0, "Berlin", "Munich"));
+
+    ev.push(
+      new EV(map.map, 4, 15, "Berlin", "Munich"));
 
     // Charging stations at location C
     var cs = [];
@@ -146,24 +155,30 @@ $(document).ready(function () {
 });
 \end{minted}
 
-The constructor of class \texttt{Map} does not need any arguments. Since there is only one map at a time, those settings are controlled via the project-wide \texttt{config.js} file instead.
+The \texttt{EV} constructor needs a Google Maps JavaScript API map object, which \texttt{map.map} is, an id, a starting delay in seconds, an initial location and a target location.
 
-The \texttt{EV} constructor needs a Google Maps JavaScript API map object, which \texttt{map.map} is, an id, a starting delay in seconds, an initial location and a target location. The constructor \texttt{CS} for charging stations needs the same two arguments as the \texttt{EV} constructor and its location. The geocoding of the location string to the actual coordinates is done via the Google Maps API.
+The constructor \texttt{CS} for charging stations needs the same two arguments as the \texttt{EV} constructor and its location. The geocoding of the location string to the actual coordinates is done via the Google Maps API.
 
 
-\newpage
 \subsection{Map}
 
-Lorem Ipsum
+The \texttt{Map} function is merely a wrapper around the Google Map object and automatically takes care of its initialization upon construction.
+
+This is done by calling its own init function directly in its function body. The \texttt{google.maps.Map} object constructor takes two arguments: The HTML element in which the newly created map should be rendered in and optionally a \texttt{MapOptions} object which allows to selectively alter map configuration options.
+
+In our case, we supply the first argument via retrieving the container element by its identifier as it is specified in our config file as \texttt{mapID}. Additionally, we do supply a \texttt{MapOptions} literal as our second argument to change the map type to \texttt{ROADMAP}, which is the obvious map type choice for our use case of running a traffic simulation.
 
 \begin{minted}{javascript}
 function Map() {
   this.init = function () {
 
     // Create new Google Map
-    this.map = new google.maps.Map(document.getElementById(config.mapID), {
+    this.map = new google.maps.Map(
+      document.getElementById(config.mapID),
+      {
         mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
+      }
+    );
 
     // Center and fit country in viewport
     var geocoder = new google.maps.Geocoder();
@@ -182,12 +197,18 @@ function Map() {
 }
 \end{minted}
 
-The \texttt{EV} constructor needs a Google Maps JavaScript API map object, which \texttt{map.map} is, an id, a starting delay in seconds, an initial location and a target location. The constructor \texttt{CS} for charging stations needs the same two arguments as the \texttt{EV} constructor and its location. The geocoding of the location string to the actual coordinates is done via the Google Maps API.
+After having created our \texttt{map} object, we construct a \texttt{geocoder} via the API. Geocoding refers to the process of translating an address in string format to a location given in coordinates. A geocoder is the software entity that performs this action.
+
+The \texttt{geocode} function is used to do exactly that: We supply \texttt{config.mapCenter} from our settings as the address, which is the string ``Germany'' in our case, and an anonymous function that gets called with the result of the geocoding process. If \texttt{status} equals \texttt{OK}, the geocoding was performed successfully and \texttt{results} contains meaningful information about the location.
+
+Via the functions \texttt{setCenter} and \texttt{fitBounds}, we position the map with the location returned for Germany at its center and make sure that the area fits within the viewport. Internally, this determines the highest zoom level such that the area is still completely contained within the viewport.
 
 
-
-\newpage
 \subsection{Charging Station}
+
+The attributes and functionality of a charging stations are encapsuled by the function \texttt{CS}. It takes three arguments: The Google Map object, an id and a location.
+
+The attribute \texttt{stats} holds the information that will be supplied by the simulation framework during the traffic simulation. The frontend is responsible for displaying this data in a reasonable way, such that the simulation manager can get a good idea of what is happening at any time.
 
 \begin{minted}{javascript}
 function CS(map, id, location) {
@@ -211,18 +232,32 @@ function CS(map, id, location) {
         queue_prediction_tsc: ''
     };
 
-    var schedule = {
-        booking_id: 1,
-        data: {
-            ev: '',
-            start: '',
-            duration: '',
-            charging_technology: '',
-            binding: '',
-            confirmed: ''
+    var schedule = [
+        {
+            id: 1,
+            data: {
+                ev: '',
+                start: '',
+                duration: '',
+                charging_technology: '',
+                binding: '',
+                confirmed: ''
+            }
         }
-    };
+    ];
+\end{minted}
 
+For a charging stations, this is for example its queue length, the number of busy poles of certain types, the number of arriving and leaving cars, information on its energy consumption and production, and so on.
+
+The attribute \texttt{schedule} contains information regarding the state of the scheduling system of the respective charging station. It is a list of scheduling entries which possess an id and other necessary information about the booking.
+
+The \texttt{init} function of a charging station is responsible for adding itself onto the map and creating a panel that contains the technical information.
+
+In order to get the charging station to show on the map, a \texttt{Marker} object needs to be created. It has only one optional argument which is a \texttt{MarkerOptions} object. We use it to specify the map to which the marker should be added (the Google Map object \texttt{map} was passed in the \texttt{CS} constructor) and the icon that should function as its visual representation, which is a battery symbol that was added via the config file.
+
+Finally, we use our helper function \texttt{setPosition} to place the created marker at the location that was supplied during the construction of the charging station.
+
+\begin{minted}{javascript}
     this.init = function () {
         var marker = new google.maps.Marker({
             map: map,
@@ -237,27 +272,57 @@ function CS(map, id, location) {
 
         CS.initStats(panel, marker);
     };
+\end{minted}
 
+Afterwards, an \texttt{InfoWindow} object is created which is a panel that should toggle its visibility upon clicking on the associated marker. The only data we need to supply is its content which is HTML code in string format. The helper function \texttt{getStats} takes care of formatting the attributes of the charging station.
+
+The function \texttt{initStats} takes the panel and marker as its arguments. It is needed to establish the connection between the two, such that the panel opens and closes when the marker is clicked.
+
+\begin{minted}{javascript}
     this.setPosition = function (marker) {
         var geocoder = new google.maps.Geocoder();
 
-        geocoder.geocode({'address': location}, function (results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                marker.setPosition(results[0].geometry.location);
-            }
+        geocoder.geocode({'address': location},
+          function (results, status) {
+           if (status == google.maps.GeocoderStatus.OK)
+           {
+             marker.setPosition(
+               results[0].geometry.location
+             );
+           }
         });
     };
+\end{minted}
 
+The functionality of the helper function \texttt{setPosition} is similar to what needed to be done during the map initialization.
+
+Its purpose is to set the position of the marker, which is given as an argument and represents the charging station, on the map. In our prototype, the location of a charging station is given as an address in string format upon construction, which is why the function \texttt{geocode} is needed again to resolve the acutual coordinates.
+
+Once the geocoding was successful, the function \texttt{setPosition} on the marker can be called with the result as its argument.
+
+As outlined before, the function \texttt{initStats} connects \texttt{marker} with \texttt{pabel}. This is done by adding a listener on the \texttt{marker} objects that performs a certain function on the event 'click'. This function tells the panel to open at the position of the marker \texttt{this} on map \texttt{this.map}.
+
+\begin{minted}{javascript}
     this.initStats = function (panel, marker) {
         marker.addListener('click', function () {
             panel.open(this.map, this);
         });
     };
+\end{minted}
 
+The function \texttt{updateStats} can be used to refresh the content of the info panel of the charging station. It takes the panel as its argument and calls the \texttt{setContent} function with the result of \texttt{getStats}.
+
+\begin{minted}{javascript}
     this.updateStats = function (panel) {
-        panel.setContent(EV.getStats());
+        panel.setContent(CS.getStats());
     };
+\end{minted}
 
+The \texttt{getStats} function is used upon initialization and when updating the panel content.
+
+Right now, it simply loops over the properties of attribute \texttt{stats} and concatenates their string representation with an HTML line break inbetween elements. In the future, this could easily be extended or modified to provide a better visual appearance.
+
+\begin{minted}{javascript}
     this.getStats = function () {
         var info = '';
 
@@ -267,7 +332,11 @@ function CS(map, id, location) {
 
         return info;
     };
+\end{minted}
 
+As seen in the \texttt{map} function, the \texttt{init} function is automatically called upon construction of a charging station object:
+
+\begin{minted}{javascript}
     this.init();
 }
 \end{minted}
@@ -295,6 +364,19 @@ function EV(map, id, start_time, origin, destination) {
         driving_flag: '',
         schedule_status: ''
     };
+
+    var schedule =  [
+        {
+            id: 1,
+            data: {
+                station: '',
+                km: '',
+                target_soc: '',
+                type: '',
+                range: ''
+            }
+        }
+    ];
 
     this.start = function () {
         var directions = new google.maps.DirectionsService();
@@ -383,8 +465,6 @@ function EV(map, id, start_time, origin, destination) {
     this.start();
 }
 \end{minted}
-
-
 
 
 

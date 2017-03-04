@@ -17,6 +17,19 @@ function EV(map, id, start_time, origin, destination) {
         schedule_status: ''
     };
 
+    var schedule =  [
+        {
+            id: 1,
+            data: {
+                station: '',
+                km: '',
+                target_soc: '',
+                type: '',
+                range: ''
+            }
+        }
+    ];
+
     this.start = function () {
         var directions = new google.maps.DirectionsService();
 

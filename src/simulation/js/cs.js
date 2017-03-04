@@ -19,17 +19,19 @@ function CS(map, id, location) {
         queue_prediction_tsc: ''
     };
 
-    var schedule = {
-        booking_id: 1,
-        data: {
-            ev: '',
-            start: '',
-            duration: '',
-            charging_technology: '',
-            binding: '',
-            confirmed: ''
+    var schedule = [
+        {
+            id: 1,
+            data: {
+                ev: '',
+                start: '',
+                duration: '',
+                charging_technology: '',
+                binding: '',
+                confirmed: ''
+            }
         }
-    };
+    ];
 
     this.init = function () {
         var marker = new google.maps.Marker({
@@ -63,7 +65,7 @@ function CS(map, id, location) {
     };
 
     this.updateStats = function (panel) {
-        panel.setContent(EV.getStats());
+        panel.setContent(CS.getStats());
     };
 
     this.getStats = function () {
