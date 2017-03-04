@@ -1,7 +1,9 @@
 sudo rm build/report.pdf
 cd template
 sudo pdflatex -shell-escape -output-directory=../build/output report.tex
-sudo bibtex ../build/output/report
+cd ..
+sudo bibtex build/output/report
+cd template
 sudo pdflatex -shell-escape -output-directory=../build/output report.tex
 sudo pdflatex -shell-escape -output-directory=../build/output report.tex
 cd ..
