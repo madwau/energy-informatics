@@ -1,3 +1,8 @@
 sudo rm build/report.pdf
-sudo latexmk -shell-escape -pdf -output-directory=build/output template/report.tex
+cd template
+sudo pdflatex -shell-escape -output-directory=../build/output report.tex
+sudo bibtex ../build/output/report
+sudo pdflatex -shell-escape -output-directory=../build/output report.tex
+sudo pdflatex -shell-escape -output-directory=../build/output report.tex
+cd ..
 sudo cp build/output/report.pdf build/report.pdf

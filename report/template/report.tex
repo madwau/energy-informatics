@@ -1,59 +1,92 @@
-\input{./template/resources/preamble}
-\input{./template/resources/header}
+\documentclass[sigconf]{acmart}
+
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs} % For formal tables
 
 \graphicspath{ {graphics/} }
 
-\usepackage[outputdir=build/output]{minted}
+\usepackage[outputdir=../build/output]{minted}
 \usemintedstyle{trac}
 \setminted{breaklines=true}
 
 \usepackage{etoolbox}
-\BeforeBeginEnvironment{minted}{\vspace{-1mm}}
-\AfterEndEnvironment{minted}{\vspace{-1mm}}
-
-\AfterEndEnvironment{itemize}{\vspace{4mm}}
+\BeforeBeginEnvironment{minted}{\vspace{0mm}}
+\AfterEndEnvironment{minted}{\vspace{0mm}}
 
 \BeforeBeginEnvironment{figure}{\vspace{3mm}}
 \AfterEndEnvironment{figure}{\vspace{1mm}}
 
+\setlength{\parskip}{1em}
+
 
 \usepackage[T1]{fontenc}
-\usepackage[scaled=0.9]{beramono}
+\usepackage[scaled=0.8]{beramono}
 
 \usepackage{fixltx2e}
 
 \usepackage{url}
 \usepackage{hyperref}
 
-\setlength{\footnotesep}{0.8\baselineskip}
-
 \usepackage{dirtree}
 
+
+% Copyright
+\setcopyright{none}
+%\setcopyright{acmcopyright}
+%\setcopyright{acmlicensed}
+%\setcopyright{rightsretained}
+%\setcopyright{usgov}
+%\setcopyright{usgovmixed}
+%\setcopyright{cagov}
+%\setcopyright{cagovmixed}
+
+
+
+% DOI
+%\acmDOI{10.475/123_4}
+
+% ISBN
+%\acmISBN{123-4567-24-567/08/06}
+
+%Conference
+\acmConference[Energy Informatics]{Energy Informatics Seminar}{WS 2016/17}{Munich, Germany} 
+\acmYear{2017}
+\copyrightyear{2017}
+
+%\acmPrice{15.00}
+
+
 \begin{document}
+\title{Interactive Front-End for EV Traffic Simulation in Highways}
+\subtitle{Energy Informatics WS 2016/17 Seminar Report}
 
-\newcommand{\Thema}{Interactive Front-End for EV Traffic Simulation in Highways}
-\newcommand{\Author}{Adrian Thiesen, Martin Wauligmann}
-\newcommand{\Date}{\today}
+\author{Adrian Thiesen}
+\affiliation{%
+  \institution{Department of Informatics\\Technische Universität München}
+}
+\email{adrian.thiesen@tum.de}\vspace{2cm}
 
-\title{\Thema}
-\author{\Author}
-\date{\today}
+\author{Martin Wauligmann}
+\affiliation{%
+  \institution{Department of Informatics\\Technische Universität München}
+}
+\email{wauligma@in.tum.de}\vspace{2cm}
 
-\input{./template/cover}
 
-\tableofcontents
+\begin{abstract}
+This paper provides a sample of a \LaTeX\ document which conforms,
+somewhat loosely, to the formatting guidelines for
+ACM SIG Proceedings.
+\end{abstract}
 
-\include{./chapters/introduction}
-\include{./chapters/implementation}
+\keywords{Electric Vehicles, Traffic Simulation, Smart Scheduling}
 
-\cleardoublepage
-\addcontentsline{toc}{chapter}{\listfigurename}
-\listoffigures
 
-\renewcommand\bibname{References}
-\bibliographystyle{unsrt}
-\cleardoublepage
-\addcontentsline{toc}{chapter}{References}
-\bibliography{references}
+\maketitle
+
+\input{../chapters/implementation}
+
+\bibliographystyle{template/ACM-Reference-Format}
+\bibliography{template/sigproc}
 
 \end{document}
