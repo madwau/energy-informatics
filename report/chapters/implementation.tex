@@ -284,12 +284,13 @@ The function \texttt{initStats} takes the panel and marker as its arguments. It 
 
         geocoder.geocode({'address': location},
           function (results, status) {
-           if (status == google.maps.GeocoderStatus.OK)
-           {
-             marker.setPosition(
-               results[0].geometry.location
-             );
-           }
+            if (status ==
+                google.maps.GeocoderStatus.OK)
+            {
+               marker.setPosition(
+                 results[0].geometry.location
+               );
+            }
         });
     };
 \end{minted}
@@ -345,6 +346,12 @@ As seen in the \texttt{map} function, the \texttt{init} function is automaticall
 \newpage
 \subsection{Electric Vehicle}
 
+The most important component of our simulation, the electric vehicle, is modelled by the \texttt{EV} function which takes four arguments: The Google Map object, an ID, a start time, an origin and a destination.
+
+The parameter \texttt{start\_time} is used in our prototype to delay the vehicle's journey for a certain number of seconds starting at the beginning of the simulation. The parameters \texttt{origin} and \texttt{location} are addresses in string format, such as cities or specific postal addresses.
+
+The attributes \texttt{stats} and \texttt{schedule} serve the same function as they do in the charging station model. The simulation framework is expected to continuously fill these values in during the progress of the simulation. For an electric vehicle, the data contains information about its position, the distance and time travelled, the battery level, its speed and so on.
+
 \begin{minted}{javascript}
 function EV(map, id, start_time, origin, destination) {
     var EV = this;
@@ -377,9 +384,18 @@ function EV(map, id, start_time, origin, destination) {
             }
         }
     ];
+\end{minted}
 
+The \texttt{schedule} attribute is a list of charging stations that the smart scheduling algorithm used by the backend has determined for this vehicle to reach its destination as fast as possible. An entry contains the station id, the station's distance in kilometers and charging relevant information.
+
+The function \texttt{start} requests a route to the EV's destination and animates the EV's marker along this route. In this prototype, Google's direction API is used to get a route from A to B. After the integration of the backend, the simulation framework would supply this route.
+
+First, we construct a \texttt{DirectionsService} object. This is used to interact with Google's direction API. Then, we specify the request that will be send to Google. It contains the origin and destination that were handed over during the EV construction. They are both in string format. Additionally, we specify the travel mode by setting it to driving.
+
+\begin{minted}{javascript}
     this.start = function () {
-        var directions = new google.maps.DirectionsService();
+        var directions =
+          new google.maps.DirectionsService();
 
         var request = {
             origin: origin,
@@ -388,15 +404,33 @@ function EV(map, id, start_time, origin, destination) {
         };
 
         setTimeout(function () {
-            directions.route(request, function (result, status) {
-                if (status == google.maps.DirectionsStatus.OK) {
-                    EV.autoUpdate(map, result.routes[0].legs);
-                }
-            });
+          directions.route(request,
+            function (result, status) {
+              if (status ==
+                  google.maps.DirectionsStatus.OK)
+              {
+                EV.autoUpdate(
+                  map, result.routes[0].legs
+                );
+              }
+          });
         }, start_time * 1000);
-
     };
+\end{minted}
 
+Then, we use the function \texttt{route} with the arguments \texttt{request} and an anonymous function that will be called when the answer was received.
+
+If \texttt{status} equals \texttt{OK}, the directions were successfully generated and \texttt{result} contains the route. The function \texttt{autoUpdate} is then used to start the animation of the vehicle along the route. It takes the Google map and the legs of the fastest route, i.e. the segments the route consists of.
+
+The Javascript function \texttt{setTimeout} is used to delay the start of the animation by \texttt{start\_time} seconds from the beginning of the simulation.
+
+The \texttt{autoUpdate} function is at the core of the simulation. It takes care of updating the EV's position. Therefore, it needs the Google map object and the legs of the route that was calculated.
+
+The route can be shown on the map to signal where the vehicle has already travelled. It is represented by a \texttt{Polyline} that can be styled in different ways. In this case, it is a black line with opoacity $0.8$ and weight $2$.
+
+Then, a marker is created that represents the EV on the map. Its icon is specified in the settings as a car symbol. The EV also gets an info window analogous to the charging stations. Its content is the information that is stored in the attributes which is correctly formatted into HTML by \texttt{getStats}. Again, \texttt{initStats} establishes the connection between the marker and the panel, so that the info window opens when the marker was clicked.
+
+\begin{minted}{javascript}
     this.autoUpdate = function (map, legs) {
         var route, marker, panel;
 
@@ -423,35 +457,61 @@ function EV(map, id, start_time, origin, destination) {
 
         var timeUnit = 0;
 
-        for (var i = 0; i < legs.length; i++) {
-            for (var j = 0; j < legs[i].steps.length; j++) {
-                for (var k = 0; k < legs[i].steps[j].path.length; k++) {
-                    setTimeout(function (coords) {
+        for (var i = 0;
+             i < legs.length; i++) {
+         for (var j = 0;
+              j < legs[i].steps.length; j++) {
+          for (var k = 0;
+               k < legs[i].steps[j].path.length; k++) {
+           setTimeout(
+            function (coords) {
 
-                        route.getPath().push(coords);
-                        EV.moveMarker(map, marker, coords);
-                        EV.updateStats(panel);
+            route.getPath().push(coords);
+            EV.moveMarker(map, marker, coords);
+            EV.updateStats(panel);
 
-                    }, 50 * timeUnit++, legs[i].steps[j].path[k]);
-                }
-            }
+            },
+            50 * timeUnit++, legs[i].steps[j].path[k]
+           );
+          }
+         }
         }
     };
+\end{minted}
 
+The triple loop construction is needed to iterate over the smallest segments of the route that is supplied by the Google directions API. The route consists of legs, which consist of steps, which consist of paths.
+
+In the innermost loop, we take the coordinates of the current path as \texttt{coords}. They get pushed to the path of the route that is displayed on the map. Then, the EV's marker is moved to those coordinates via the helper function \texttt{moveMarker}. And finally, \texttt{updateStats} is used to reload the info panel content. The \texttt{setTimeout} function is used to achieve the animation effect. The nth path is travelled after $50n$ milliseconds. The variable \texttt{timeUnit} thus symbolizes one step.
+
+The helper function \texttt{moveMarker} simply sets the position of the EV's marker to a certain coordinate that is given as \texttt{latlng}.
+
+\begin{minted}{javascript}
     this.moveMarker = function (map, marker, latlng) {
         marker.setPosition(latlng);
     };
+\end{minted}
 
+In order to achieve the functionality that the info panel opens when the respective marker is clicked, a listener is added on the marker that calls the \texttt{open} function on the panel when the marker is clicked.
+
+\begin{minted}{javascript}
     this.initStats = function (panel, marker) {
         marker.addListener('click', function () {
             panel.open(this.map, this);
         });
     };
+\end{minted}
 
+The helper function \texttt{updateStats} regenerates the EV information via \texttt{getStats} and sets the panel's content accordingly.
+
+\begin{minted}{javascript}
     this.updateStats = function (panel) {
         panel.setContent(EV.getStats());
     };
+\end{minted}
 
+The \texttt{getStats} function works exactly the same as the one for the charging stations. The attribute \texttt{stats} is converted to an HTML string by concatenating the properties with line breaks inbetween.
+
+\begin{minted}{javascript}
     this.getStats = function () {
         var info = "";
 
@@ -461,11 +521,14 @@ function EV(map, id, start_time, origin, destination) {
 
         return info;
     };
+\end{minted}
 
+Finally, the \texttt{start} function is directly called as soon as the EV is constructed.
+
+\begin{minted}{javascript}
     this.start();
 }
 \end{minted}
 
-
-
+Lorem Ipsum
 
