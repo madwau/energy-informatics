@@ -1,6 +1,4 @@
 function Map() {
-    this.map = undefined;
-
     this.init = function () {
 
         // Create new Google Map

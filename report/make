@@ -1,3 +1,3 @@
-rm build/report.pdf
-latexmk -shell-escape -pdf -output-directory=build/output template/report.tex
-cp build/output/report.pdf build/report.pdf
+sudo rm build/report.pdf
+sudo latexmk -shell-escape -pdf -output-directory=build/output template/report.tex
+sudo cp build/output/report.pdf build/report.pdf

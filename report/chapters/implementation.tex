@@ -1,0 +1,184 @@
+\chapter{Implementation}
+
+\section{Simulation Manager Interface}
+
+\subsection{Structure}
+
+The project structure of the Simulation Manager Interface can easily be inferred by taking a look at the directory tree diagram below:
+
+\vspace{3mm}
+\dirtree{%
+.1 /.
+.2 css.
+.3 main.css.
+.2 data.
+.3 cs.json.
+.3 ev.json.
+.2 img.
+.3 markers.
+.4 battery.png.
+.4 car.png.
+.2 js.
+.3 config.js.
+.3 cs.js.
+.3 ev.js.
+.3 main.js.
+.3 map.js.
+.2 less.
+.3 main.less.
+.3 map.less.
+.2 index.html.
+}
+
+It follows guiding principles that are commonly applied in modern frontend web development, such as the clear seperation of markup, functionality, style, assets, and data.
+
+The reason for sticking to this conventional structure is that it facilitates the future maintenance of the project by developers that were not part of its original development.
+
+\subsection{Markup}
+
+The HTML markup needed to get our Simulation Manager Interface to show is minimal. We set the page title to ``EV Traffic Simulation'', link the generated css stylesheet, the newest miminized jQuery version from a CDN, the Google Maps JavaScript API script with our API key attached at the end of the url, and finally the javascript files of our project.
+
+\begin{minted}{html}
+<!doctype html>
+<html lang="en">
+<head>
+    <title>EV Traffic Simulation</title>
+
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    <!-- Google Maps JavaScript API -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3&key=AI...4A"></script>
+
+    <!-- EV Traffic Simulation -->
+    <script src="js/config.js"></script>
+    <script src="js/ev.js"></script>
+    <script src="js/cs.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/main.js"></script>
+</head>
+
+<body>
+    <div id="map"></div>
+</body>
+</html>
+\end{minted}
+
+The document body merely consists of a \texttt{div} with the id \texttt{map}. Everything else is either style or functionality that is outsourced to css or javascript files, respectively.
+
+\subsection{Configuration}
+
+The settings of the Simulation Manager Interface can be found in \texttt{js/config.js}.
+
+\begin{minted}{javascript}
+var config = {
+    mapID: "map",
+    mapCenter: "Germany",
+    mapZoom: 7,
+    markers: {
+        car: {
+            url: "img/markers/car.png",
+            anchor: new google.maps.Point(24, 18)
+        },
+        battery: {
+            url: "img/markers/battery.png",
+            anchor: new google.maps.Point(20, 36)
+        }
+    }
+};
+\end{minted}
+
+Below is a short explanation of the various configuration parameters:
+
+\begin{table}[htp]
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{p{2.4cm}p{12cm}}
+\texttt{mapID} & The \texttt{id} attribute of the HTML element in which the map should be rendered.\\
+\texttt{mapCenter} &  The map will be aligned to show this location at its center. Geocoding to retrieve the coordinates from the location name is performed by the Google Maps JavaScript API.\\
+\texttt{mapZoom} &  The initial zoom level of the map. The value \texttt{0} corresponds to a map of the Earth that is fully zoomed out, while a value of 20 shows buildings in detail \cite{google-api-zoom}. The parameter must be an integer.\\
+\texttt{markers} & The small graphics that need to be displayed on the map. The object \texttt{markers["car"]} is used for the EVs and \texttt{markers["battery"]} for the charging stations.
+
+The \texttt{url} property of the image is given relative to the project directory. The anchor attribute lets you control which point of the image will be placed at the object's actual pixel coordinates.
+\end{tabular}
+\vspace{4mm}
+\caption{Simulation Manager Interface: Configuration Options}
+\end{table}
+
+
+\subsection{Application}
+
+The main application routine consists of constructing an object \texttt{map} of our \texttt{Map} class, creating empty lists that will hold the electric vehicles (EVs) and charging stations (CSs), and finally creating those EVs and CSs with certain parameters.
+
+\begin{minted}{javascript}
+$(document).ready(function () {
+
+    // Init map
+    var map = new Map();
+
+    // Electric vehicles traveling from A to B
+    var ev = [];
+
+    ev.push(new EV(map.map, 1, 0,  "Munich", "Berlin"));
+    ev.push(new EV(map.map, 2, 10, "Munich", "Berlin"));
+    ev.push(new EV(map.map, 3, 0,  "Berlin", "Munich"));
+    ev.push(new EV(map.map, 4, 15, "Berlin", "Munich"));
+
+    // Charging stations at location C
+    var cs = [];
+
+    cs.push(new CS(map.map, 1, "Ingolstadt"));
+    cs.push(new CS(map.map, 2, "Nuremberg"));
+    cs.push(new CS(map.map, 3, "Bayreuth"));
+    cs.push(new CS(map.map, 4, "Osterfeld"));
+    cs.push(new CS(map.map, 5, "Rabenstein"));
+});
+\end{minted}
+
+The constructor of class \texttt{Map} does not need any arguments. Since there is only one map at a time, those settings are controlled via the project-wide \texttt{config.js} file instead.
+
+The \texttt{EV} constructor needs a Google Maps JavaScript API map object, which \texttt{map.map} is, an id, a starting delay in seconds, an initial location and a target location. The constructor \texttt{CS} for charging stations needs the same two arguments as the \texttt{EV} constructor and its location. The geocoding of the location string to the actual coordinates is done via the Google Maps API.
+
+
+\subsection{Map}
+
+Lorem Ipsum
+
+\begin{minted}{javascript}
+function Map() {
+  this.init = function () {
+
+    // Create new Google Map
+    this.map = new google.maps.Map(document.getElementById(config.mapID), {
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    // Center and fit country in viewport
+    var geocoder = new google.maps.Geocoder();
+    var map = this.map;
+
+    geocoder.geocode({'address': config.mapCenter},
+      function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          map.setCenter(results[0].geometry.location);
+          map.fitBounds(results[0].geometry.viewport);
+        }
+    });
+  };
+
+  this.init();
+}
+\end{minted}
+
+Lorem Ipsum
+
+
+
+
+
+
+
+
+
+
