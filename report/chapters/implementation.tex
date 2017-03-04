@@ -1,0 +1,391 @@
+\newpage
+
+\section{Simulation Manager Interface}
+
+\subsection{Structure}
+
+The project structure of the Simulation Manager Interface can easily be inferred by taking a look at the directory tree diagram below:
+
+\vspace{4mm}
+\dirtree{%
+.1 /.
+.2 css.
+.3 main.css.
+.2 data.
+.3 cs.json.
+.3 ev.json.
+.2 img.
+.3 markers.
+.4 battery.png.
+.4 car.png.
+.2 js.
+.3 config.js.
+.3 cs.js.
+.3 ev.js.
+.3 main.js.
+.3 map.js.
+.2 less.
+.3 main.less.
+.3 map.less.
+.2 index.html.
+}
+\vspace{2mm}
+
+It follows guiding principles that are commonly applied in modern frontend web development, such as the clear seperation of markup, functionality, style, assets, and data.
+
+The reason for sticking to this conventional structure is that it facilitates the future maintenance of the project by developers that were not part of its original development.
+
+
+\newpage
+\subsection{Markup}
+
+The HTML markup needed to get our Simulation Manager Interface to show is minimal.
+
+We set the page title to ``EV Traffic Simulation'', link the generated css stylesheet, the newest miminized jQuery version from a CDN, the Google Maps JavaScript API script with our API key attached at the end of the url, and finally the javascript files of our project.
+
+\begin{minted}{html}
+<!doctype html>
+
+<html lang="en">
+<head>
+    <title>EV Traffic Simulation</title>
+
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js">
+    </script>
+
+    <!-- Google Maps JavaScript API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=.">
+    </script>
+
+    <!-- EV Traffic Simulation -->
+    <script src="js/config.js"></script>
+    <script src="js/ev.js"></script>
+    <script src="js/cs.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/main.js"></script>
+</head>
+
+<body>
+    <div id="map"></div>
+</body>
+</html>
+\end{minted}
+
+The document body merely consists of a \texttt{div} with the id \texttt{map}. Everything else is either style or functionality that is outsourced to css or javascript files, respectively.
+
+\newpage
+\subsection{Configuration}
+
+The settings of the Simulation Manager Interface can be found in \texttt{js/config.js}.
+
+\begin{minted}{javascript}
+var config = {
+    mapID: "map",
+    mapCenter: "Germany",
+    mapZoom: 7,
+    markers: {
+        car: {
+            url: "img/markers/car.png",
+            anchor: new google.maps.Point(24, 18)
+        },
+        battery: {
+            url: "img/markers/battery.png",
+            anchor: new google.maps.Point(20, 36)
+        }
+    }
+};
+\end{minted}
+
+Below is a short explanation of the various configuration parameters:
+
+\begin{table}[htp]
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{p{1.6cm}p{5.8cm}}
+\texttt{mapID} & The \texttt{id} attribute of the HTML element in which the map should be rendered.\\
+\texttt{mapCenter} &  The map will be aligned to show this location at its center. Geocoding to retrieve the coordinates from the location name is performed by the Google Maps JavaScript API.\\
+\texttt{mapZoom} &  The initial zoom level of the map. The value \texttt{0} corresponds to a map of the Earth that is fully zoomed out, while a value of 20 shows buildings in detail \cite{google-api-zoom}. The parameter must be an integer.\\
+\texttt{markers} & The small graphics that need to be displayed on the map. The object \texttt{markers["car"]} is used for the EVs and \texttt{markers["battery"]} for the charging stations.
+
+The \texttt{url} property of the image is given relative to the project directory. The anchor attribute lets you control which point of the image will be placed at the object's actual pixel coordinates.
+\end{tabular}
+\vspace{4mm}
+\caption{Simulation Manager Interface: Configuration Options}
+\end{table}
+
+
+\newpage
+\subsection{Application}
+
+The main application routine consists of constructing an object \texttt{map} of our \texttt{Map} class, creating empty lists that will hold the electric vehicles (EVs) and charging stations (CSs), and finally creating those EVs and CSs with certain parameters.
+
+\begin{minted}{javascript}
+$(document).ready(function () {
+
+    // Init map
+    var map = new Map();
+
+    // Electric vehicles traveling from A to B
+    var ev = [];
+
+    ev.push(new EV(map.map, 1, 0,  "Munich", "Berlin"));
+    ev.push(new EV(map.map, 2, 10, "Munich", "Berlin"));
+    ev.push(new EV(map.map, 3, 0,  "Berlin", "Munich"));
+    ev.push(new EV(map.map, 4, 15, "Berlin", "Munich"));
+
+    // Charging stations at location C
+    var cs = [];
+
+    cs.push(new CS(map.map, 1, "Ingolstadt"));
+    cs.push(new CS(map.map, 2, "Nuremberg"));
+    cs.push(new CS(map.map, 3, "Bayreuth"));
+    cs.push(new CS(map.map, 4, "Osterfeld"));
+    cs.push(new CS(map.map, 5, "Rabenstein"));
+});
+\end{minted}
+
+The constructor of class \texttt{Map} does not need any arguments. Since there is only one map at a time, those settings are controlled via the project-wide \texttt{config.js} file instead.
+
+The \texttt{EV} constructor needs a Google Maps JavaScript API map object, which \texttt{map.map} is, an id, a starting delay in seconds, an initial location and a target location. The constructor \texttt{CS} for charging stations needs the same two arguments as the \texttt{EV} constructor and its location. The geocoding of the location string to the actual coordinates is done via the Google Maps API.
+
+
+\newpage
+\subsection{Map}
+
+Lorem Ipsum
+
+\begin{minted}{javascript}
+function Map() {
+  this.init = function () {
+
+    // Create new Google Map
+    this.map = new google.maps.Map(document.getElementById(config.mapID), {
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    // Center and fit country in viewport
+    var geocoder = new google.maps.Geocoder();
+    var map = this.map;
+
+    geocoder.geocode({'address': config.mapCenter},
+      function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          map.setCenter(results[0].geometry.location);
+          map.fitBounds(results[0].geometry.viewport);
+        }
+    });
+  };
+
+  this.init();
+}
+\end{minted}
+
+The \texttt{EV} constructor needs a Google Maps JavaScript API map object, which \texttt{map.map} is, an id, a starting delay in seconds, an initial location and a target location. The constructor \texttt{CS} for charging stations needs the same two arguments as the \texttt{EV} constructor and its location. The geocoding of the location string to the actual coordinates is done via the Google Maps API.
+
+
+
+\newpage
+\subsection{Charging Station}
+
+\begin{minted}{javascript}
+function CS(map, id, location) {
+    var CS = this;
+
+    var stats = {
+        id: id,
+        time: '',
+        queue_length: '',
+        busy_poles_fc: '',
+        busy_poles_tsc: '',
+        arrived_cars: '',
+        leaving_cars: '',
+        queued_cars: '',
+        plugged_cars: '',
+        energy_consumed: '',
+        energy_produced: '',
+        energy_stored: '',
+        energy_bought: '',
+        queue_prediction_fc: '',
+        queue_prediction_tsc: ''
+    };
+
+    var schedule = {
+        booking_id: 1,
+        data: {
+            ev: '',
+            start: '',
+            duration: '',
+            charging_technology: '',
+            binding: '',
+            confirmed: ''
+        }
+    };
+
+    this.init = function () {
+        var marker = new google.maps.Marker({
+            map: map,
+            icon: config.markers.battery
+        });
+
+        CS.setPosition(marker);
+
+        var panel = new google.maps.InfoWindow({
+            content: CS.getStats()
+        });
+
+        CS.initStats(panel, marker);
+    };
+
+    this.setPosition = function (marker) {
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode({'address': location}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                marker.setPosition(results[0].geometry.location);
+            }
+        });
+    };
+
+    this.initStats = function (panel, marker) {
+        marker.addListener('click', function () {
+            panel.open(this.map, this);
+        });
+    };
+
+    this.updateStats = function (panel) {
+        panel.setContent(EV.getStats());
+    };
+
+    this.getStats = function () {
+        var info = '';
+
+        for (var key in stats) {
+            info += key + ': ' + stats[key] + '<br>';
+        }
+
+        return info;
+    };
+
+    this.init();
+}
+\end{minted}
+
+
+\newpage
+\subsection{Electric Vehicle}
+
+\begin{minted}{javascript}
+function EV(map, id, start_time, origin, destination) {
+    var EV = this;
+
+    var stats = {
+        id: id,
+        time: '',
+        position: '',
+        geo_position: '',
+        distance_travelled: '',
+        time_travelled: '',
+        time_waited: '',
+        time_charged: '',
+        time_driven: '',
+        battery_level: '',
+        speed: '',
+        driving_flag: '',
+        schedule_status: ''
+    };
+
+    this.start = function () {
+        var directions = new google.maps.DirectionsService();
+
+        var request = {
+            origin: origin,
+            destination: destination,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+
+        setTimeout(function () {
+            directions.route(request, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    EV.autoUpdate(map, result.routes[0].legs);
+                }
+            });
+        }, start_time * 1000);
+
+    };
+
+    this.autoUpdate = function (map, legs) {
+        var route, marker, panel;
+
+        route = new google.maps.Polyline({
+            path: [],
+            geodesic: true,
+            strokeColor: '#000000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            editable: false,
+            map: map
+        });
+
+        marker = new google.maps.Marker({
+            map: map,
+            icon: config.markers.car
+        });
+
+        panel = new google.maps.InfoWindow({
+            content: EV.getStats()
+        });
+
+        EV.initStats(panel, marker);
+
+        var timeUnit = 0;
+
+        for (var i = 0; i < legs.length; i++) {
+            for (var j = 0; j < legs[i].steps.length; j++) {
+                for (var k = 0; k < legs[i].steps[j].path.length; k++) {
+                    setTimeout(function (coords) {
+
+                        route.getPath().push(coords);
+                        EV.moveMarker(map, marker, coords);
+                        EV.updateStats(panel);
+
+                    }, 50 * timeUnit++, legs[i].steps[j].path[k]);
+                }
+            }
+        }
+    };
+
+    this.moveMarker = function (map, marker, latlng) {
+        marker.setPosition(latlng);
+    };
+
+    this.initStats = function (panel, marker) {
+        marker.addListener('click', function () {
+            panel.open(this.map, this);
+        });
+    };
+
+    this.updateStats = function (panel) {
+        panel.setContent(EV.getStats());
+    };
+
+    this.getStats = function () {
+        var info = "";
+
+        for (var key in stats) {
+            info += key + ": " + stats[key] + "<br>";
+        }
+
+        return info;
+    };
+
+    this.start();
+}
+\end{minted}
+
+
+
+
+
+
