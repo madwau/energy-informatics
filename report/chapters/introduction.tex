@@ -1,0 +1,92 @@
+\section{Introduction}
+
+Comfortably traveling longer highway routes with an EV is currently a challenging endeavor. The charging
+infrastructure is still nascent, which potentially causes already long charging times to be prolonged by having to
+wait for a free spot at a charging station that runs at full capacity.
+
+The whitepaper ``Smart Charging Schedules for Highway Travel with Electric Vehicles'' \cite{driver-17} by Victor del Razo and
+Hans-Arno Jacobsen first and foremost proposes a scheduling approach for EVs to decide on their charging stops during
+a trip on a highway where the charging infrastructure is limited. The goal is to reduce the total travel time for
+each EV. It then introduces a simulation framework that demonstrates the smart scheduling approach and on top of that
+aids the simulation process by providing generated trip data and support for time-dependent parameters that effect
+highway traffic.
+
+In the following, the general idea of the scheduling approach and the resulting mathematical model will be briefly
+outlined, mostly pertaining to the aspects that are relevant for the simulation tool. The problem is formulated as a
+shortest path problem and the scheduling algorithm is based on the A* search algorithm, which is extended with
+verification of constraints, such as EV energy limitations and driving speeds.
+
+The model has three main components: EVs, a highway and charging stations. The scheduling strategy is local to the EV
+but requires real-time communication with charging stations and a general highway-related information system. A set
+of charging stops and times is calculated and the relevant bookings are submitted to the charging stations together
+with the expected arrival time. The trip proceeds as planned unless an update schedule event is received.
+
+The EVs do not interact directly with each other, however, they indirectly influence each other via relying on the
+communicated information from the charging stations on their current occupancy level and the state of their reservation
+system. The reservation system supports dynamic updates as hinted at earlier.
+
+The simulation tool implements a representation of the described model and its behavior. Additionally, it accounts for
+highway exits/entries, variable highway speed limitations, and EV-specific characteristics.
+
+Our task was to design and implement a graphic interface that shows the states of all EVs and charging stations on
+the highway as they develop during the simulation. Moreover, an interface for the EV driver, that presents all
+relevant vehicle and travel related information, should be conceived.
+
+
+\section{Research}
+
+Our main research question is as follows: What is the most suitable form of presentation for the data that is most
+relevant during the simulation and while driving respectively?
+
+There are a variety of aspects that need to be considered when designing a frontend for data-heavy applications,
+such as the highway traffic simulation tool we are dealing with. Perhaps most importantly, all relevant data
+pertaining to the state of the models used in the simulation should be accessible in a structured way that is intuitive
+for the user.
+
+Depending on the size of the simulation in terms of EVs and charging stations, this is not a trivial
+task. More advanced considerations include how to illustrate relations between EVs and charging stations, how to
+visually communicate schedule changes to the user and how to present certain metrics in an aggregated form.
+
+We solved the issue of accessing the information in a structured way by ensuring certain features of the simulation manager frontend: Firstly, it is possible to have a complete overview about the simulation on a superficial level by viewing the map at its initial zoom state, which is completely zoomed out so that the whole relevant map area is bounded within the viewport.
+
+Secondly, detailed information about a certain EV or CS is accessible to selecting the desired object on the map via a simple click. This opens an info window that displays detailed statistics about the entity as they are supplied by the simulation framework from the backend.
+
+The design of a user interface that is going to be used in an EV on the other hand, poses a completely different set
+of challenges. In our research, we have looked at best practices for this specific use case in which the user
+can only take in a limited amount of information. The key is to determine when to present which piece of
+data to the user. Certain crucial information points should always be visible while others only occur
+when they are relevant in the context of time and location.
+
+A further part of our research was to get an overview of the tools and frameworks that could help us in implementing our two interfaces and finally determine which were most suitable for our requirements.
+
+As can be seen in the implementation sections later, we did indeed rely on certain frameworks quite heavily. We used the Google Maps JavaScript API for the simulation manager interface and the Here Maps API for the EV driver interface due to a number of benefits and disadvantages of each of them depending on the use case. This will be examined more closely in the framework comparison subsection.
+
+
+\section{Requirements}
+
+Driving user interfaces have often proven to be complicated or not so well integrated, therefore in our approach we
+will try to keep it as minimalistic as possible but still have all necessary features onboard.
+
+Most important for the
+driver UI are the own stats like time, current position of the car, probably integrated as a map with a display of
+possible charging stations around, the time and distance already traveled and the current speed of the vehicle.
+
+Furthermore, EV specific statuses, such as the time waited for charging, the current battery level as well as an
+estimate of charging time and specific to the simulation the schedule status. This means that the user will always
+be able to tell what the battery status is, his distance to the destination as well as the distance to the next
+scheduled stop, so that he has an overview of the remaining trip.
+
+Besides the staus display, a functionality will be integrated, so that the user can enter a destination and the
+system can then calculate the optimal charging route. In addition, it will then display the route and show the user
+scheduled stops. While the user is driving, there will be some sort of notification, so that he is informed in time,
+when he is getting close to a stop.
+
+The simulation user interface will show an overview of all charging stations. It will give detailed information for
+each charging station, so that he can follow the stations' development. Information about the scheduling algorithm
+will be the main focus here, like queue length, queue prediction of waiting cars, busy poles, arriving and departing
+cars and those that are currently plugged in.
+
+Furthermore, information about energy management will also play a key role, such as energy consumed, energy produced,
+energy stored and energy bought. Another information that will be provided is important data about a current
+charge event, such as the duration or charging technology used. A main focus for the simulation user interface
+will be providing aggregated and cumulative statistics about the EVs and charging stations.

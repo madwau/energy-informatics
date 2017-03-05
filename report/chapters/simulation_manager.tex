@@ -1,12 +1,32 @@
+\begin{figure*}[ht]
+\includegraphics[width=\textwidth]{simulation_manager}
+\caption{Simulation Manager Interface}
+\end{figure*}
+
 \newpage
+
 
 \section{Simulation Manager Interface}
 
+\subsection{Approach}
+
+The Simulation Manager Interface is supposed to be a frontend for a traffic simulation framework that simulates electric vehicles on a highway and optimizes their travel time. The actual simulation and calculation of all relevant data thus happens in the backend. The purpose of the frontend is to assist the person running the simulation, i.e. the simulation manager.
+
+Without a visual representation of the simulation, it is very challenging for the simulation manager to understand the current state and behavior of the simulation since humans are naturally not very good at interpreting large amounts of data at a high speed.
+
+Our approach for the implementation of the prototype is to display the simulation data on a map. The two main components that need to be integrated into the map are the electric vehicles (EVs) and charging stations (CSs).
+
+We decided to use the Google Maps JavaScript API as a foundation for the implementation since it provides a lot of assistance in setting up the functionality we will need, e.g. good map data, zoom capability, marker positioning, info panels and so on. Additionally, almost everyone is already familiar with using the Google Maps UI, which is another important advantage.
+
+The project structure follows guiding principles that are commonly applied in modern frontend web development, such as the clear seperation of markup, functionality, style, assets, and data.
+
+
 \subsection{Structure}
 
-The project structure of the Simulation Manager Interface can easily be inferred by taking a look at the directory tree diagram below:
+The project structure of the Simulation Manager Interface can easily be inferred by taking a look at the directory tree diagram:
 
-\vspace{4mm}
+\vspace{2mm}
+\setlength{\DTbaselineskip}{11pt}
 \dirtree{%
 .1 /.
 .2 css.
@@ -31,12 +51,9 @@ The project structure of the Simulation Manager Interface can easily be inferred
 }
 \vspace{2mm}
 
-It follows guiding principles that are commonly applied in modern frontend web development, such as the clear seperation of markup, functionality, style, assets, and data.
-
 The reason for sticking to this conventional structure is that it facilitates the future maintenance of the project by developers that were not part of its original development.
 
 
-\newpage
 \subsection{Markup}
 
 The HTML markup needed to get our Simulation Manager Interface to show is minimal.
@@ -60,11 +77,19 @@ We set the page title to ``EV Traffic Simulation'', link the generated css style
     <script src="https://maps.googleapis.com/maps/api/js?key=.">
     </script>
 
-    <!-- EV Traffic Simulation -->
+    <!-- Configuration Options -->
     <script src="js/config.js"></script>
+
+    <!-- Electric Vehicle Model -->
     <script src="js/ev.js"></script>
+
+    <!-- Charging Station Model -->
     <script src="js/cs.js"></script>
+
+    <!-- Google Map Wrapper -->
     <script src="js/map.js"></script>
+
+    <!-- Main Application Script -->
     <script src="js/main.js"></script>
 </head>
 
@@ -102,13 +127,13 @@ var config = {
 Below is a short explanation of the various configuration parameters:
 
 \begin{table}[htp]
-\renewcommand{\arraystretch}{1.8}
-\begin{tabular}{p{1.6cm}p{5.8cm}}
+\renewcommand{\arraystretch}{1.9}
+\begin{tabular}{p{1.8cm}p{5.6cm}}
 \texttt{mapID} & The \texttt{id} attribute of the HTML element in which the map should be rendered.\\
 \texttt{mapCenter} &  The map will be aligned to show this location at its center. Geocoding to retrieve the coordinates from the location name is performed by the Google Maps JavaScript API.\\
 \texttt{mapZoom} &  The initial zoom level of the map. The value \texttt{0} corresponds to a map of the Earth that is fully zoomed out, while a value of 20 shows buildings in detail \cite{google-api-zoom}. The parameter must be an integer.\\
 \texttt{markers} & The small graphics that need to be displayed on the map. The object \texttt{markers["car"]} is used for the EVs and \texttt{markers["battery"]} for the charging stations.
-
+\newline\newline
 The \texttt{url} property of the image is given relative to the project directory. The anchor attribute lets you control which point of the image will be placed at the object's actual pixel coordinates.
 \end{tabular}
 \vspace{4mm}

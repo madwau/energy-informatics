@@ -1,5 +1,11 @@
 \clearpage
 
+\begin{figure*}[ht]
+\centering
+\includegraphics[width=\textwidth]{user_interface}
+\caption{EV Driver User Interface}
+\end{figure*}
+
 \section{EV Driver Interface}
 
 The UI is one aspect of EVs or automobiles in general that often has not been the center of effort and discussion and used to play a minor role in development. However, in order to fully maximize an EV's potential and to ensure consumer adoption, the design and functionality of UI is an important aspect. Designers have also picked up on that topic \cite{driver-1}.
@@ -66,33 +72,33 @@ It is very important to address whether or not offline usage is of much importan
 
 \subsection{Map Framework Selection Conclusion}
 
-The two frameworks are almost the same when it comes to data set or the coverage, i.e. they both cover a similarly wide area. In terms of customizability, even though both are quite well documented, Here Maps is much more customizable than Google API. This will be of importance when it comes to adding custom charging stations, or even a whole charging station database with information such as queue times, free queue slots to the system. Google Maps offline usage is also limited to an area and thus needs to be updated regularly, which is not the intended use of Google Maps. Here Maps is much stronger in this area. For those reasons, we decided to use the Here Maps API as the framework to go within the EV UI.  
+The two frameworks are almost the same when it comes to data set or the coverage, i.e. they both cover a similarly wide area. In terms of customizability, even though both are quite well documented, Here Maps is much more customizable than Google API.
+
+This will be of importance when it comes to adding custom charging stations, or even a whole charging station database with information such as queue times, free queue slots to the system.
+
+Google Maps offline usage is also limited to an area and thus needs to be updated regularly, which is not the intended use of Google Maps. Here Maps is much stronger in this area. For those reasons, we decided to use the Here Maps API as the framework to go within the EV UI.  
 
 
 \subsection{Electric Vehicle User Interface}
 
-The electric vehicle user interface is implemented by using the JavaScript API provided by Here Maps \cite{driver-15} \cite{driver-16}. For the implementation we made use of an example provided by Here for the navigation from A to B. An overview of the user interface can be seen below in figure 1. 
+The electric vehicle user interface is implemented by using the JavaScript API provided by Here Maps \cite{driver-15} \cite{driver-16}. For the implementation we made use of an example provided by Here for the navigation from A to B. An overview of the user interface can be seen in figure 2. 
 
-\begin{figure}[htp]
-\centering
-\includegraphics[width=0.46\textwidth]{user_interface}
-\caption{User Interface}
-\end{figure}
+On the left side is the map and the calculated route displayed, in this case from TU Munich to a stadium in Nuremberg, with one charging stop in the middle. At the top is further information about the battery status, for example the charging status and the battery level.
 
-On the left side is the map and the calculated route displayed, in this case from TU Munich to a stadium in Nuremberg, with one charging stop in the middle. At the top is further information about the battery status, for example the charging status and the battery level. On the right side is additional trip information, it is only displayed to show the commands which will then be spoken out by text to speech. These should not be displayed in a later version. On the bottom of the left side is further information about the trip like the total travel time and total distance. 
+On the right side is additional trip information, it is only displayed to show the commands which will then be spoken out by text to speech. These should not be displayed in a later version. On the bottom of the left side is further information about the trip like the total travel time and total distance. 
 
 
 \subsection{Markup}
 
-As it is the case for the Simulation Manager Interface, the .arkup needed to display the user interface is kept minimalistic. At the top are some div elements to display the battery status of the device. In this case, it is the battery level of the computer it is running on to show its charging status, the battery level and the time till it is fully discharged. If it cannot be read, it will display ``charging state unknown''.
+As it is the case for the Simulation Manager Interface, the markup needed to display the user interface is kept minimalistic. At the top are some div elements to display the battery status of the device.
+
+In this case, it is the battery level of the computer it is running on to show its charging status, the battery level and the time till it is fully discharged. If it cannot be read, it will display ``charging state unknown''.
 
 \begin{minted}{html}
 <!DOCTYPE html>
 
 <html>
-<head>
-[...]
-</head>
+<head>[...]</head>
 
 <body>
 <div id="charging">(charging state unknown)</div>
@@ -145,7 +151,7 @@ Below that are two div elements one to display the map and another one to displa
         [...]
 \end{minted}
 
-For alignment css is used which is embedded in the head of the html file.
+For alignment css is used which is embedded in the head of the HTML file.
 
 \subsection{Initialization}
 
@@ -250,7 +256,7 @@ function onSuccess(result) {
 \caption{CalculateRouteResponseType \cite{driver-14}}
 \end{figure}
 
-As displayed in figure 1, the route response contains, besides meta info and information about language, the information set for the route. The route itself is stored in a route element, which can appear more than once depending on how many routes were calculated. 
+As displayed in figure 3, the route response contains, besides meta info and information about language, the information set for the route. The route itself is stored in a route element, which can appear more than once depending on how many routes were calculated. 
 
 
 \subsection{Summary Panel}
@@ -321,16 +327,17 @@ function addManueversToPanel(route) {
 }
 \end{minted}
 
-\begin{minted}{javascript}
+\begin{minted}{html}
 Number.prototype.toMMSS = function () {
-    return Math.floor(this / 60) + ' minutes ' + (this % 60)  + ' seconds.';
+    return Math.floor(this / 60) + ' minutes '
+           + (this % 60)  + ' seconds.';
 }
 \end{minted}
 
-This function can open and display an information bubble at a geo position, for example information about the queue times at a charging stop provided by the backend. Furthermore, a notification can be raised for example if the energy consumption is too high or the battery is running low. 
-
 
 \subsection{Notification Message}
+
+This function can open and display an information bubble at a geo position, for example information about the queue times at a charging stop provided by the backend. Furthermore, a notification can be raised for example if the energy consumption is too high or the battery is running low. 
 
 \begin{minted}{javascript}
 function openBubble(position, text){
