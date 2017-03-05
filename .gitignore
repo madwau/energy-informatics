@@ -22,4 +22,4 @@ src/simulation/css/main.css
 *.swp
 
 # report
-report/build/*
+report/build/output/*
