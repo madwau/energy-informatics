@@ -144,9 +144,9 @@ The \texttt{url} property of the image is given relative to the project director
 \newpage
 \subsection{Application}
 
-The main application routine consists of constructing an object \texttt{map} of our \texttt{Map} class, creating empty lists that will hold the electric vehicles (EVs) and charging stations (CSs), and finally creating those EVs and CSs with certain parameters.
+The main application routine consists of constructing an instance \texttt{map} of our \texttt{Map} function, creating empty lists that will hold the electric vehicles (EVs) and charging stations (CSs), and finally creating those EVs and CSs with certain parameters.
 
-The constructor of class \texttt{Map} does not need any arguments. Since there is only one map at a time, those settings are controlled via the project-wide \texttt{config.js} file instead.
+The constructor of function \texttt{Map} does not need any arguments. Since there is only one map at a time, those settings are controlled via the project-wide \texttt{config.js} file instead.
 
 \begin{minted}{javascript}
 $(document).ready(function () {
@@ -231,7 +231,7 @@ Via the functions \texttt{setCenter} and \texttt{fitBounds}, we position the map
 
 \subsection{Charging Station}
 
-The attributes and functionality of a charging stations are encapsuled by the function \texttt{CS}. It takes three arguments: The Google Map object, an id and a location.
+The attributes and functionality of a charging station are encapsuled by the function \texttt{CS}. It takes three arguments: The Google Map object, an id and a location.
 
 The attribute \texttt{stats} holds the information that will be supplied by the simulation framework during the traffic simulation. The frontend is responsible for displaying this data in a reasonable way, such that the simulation manager can get a good idea of what is happening at any time.
 
@@ -272,7 +272,7 @@ function CS(map, id, location) {
     ];
 \end{minted}
 
-For a charging stations, this is for example its queue length, the number of busy poles of certain types, the number of arriving and leaving cars, information on its energy consumption and production, and so on.
+For a charging station, this is for example its queue length, the number of busy poles of certain types, the number of arriving and leaving cars, information on its energy consumption and production, and so on.
 
 The attribute \texttt{schedule} contains information regarding the state of the scheduling system of the respective charging station. It is a list of scheduling entries which possess an id and other necessary information about the booking.
 
@@ -373,7 +373,7 @@ As seen in the \texttt{map} function, the \texttt{init} function is automaticall
 
 The most important component of our simulation, the electric vehicle, is modelled by the \texttt{EV} function which takes four arguments: The Google Map object, an ID, a start time, an origin and a destination.
 
-The parameter \texttt{start\_time} is used in our prototype to delay the vehicle's journey for a certain number of seconds starting at the beginning of the simulation. The parameters \texttt{origin} and \texttt{location} are addresses in string format, such as cities or specific postal addresses.
+The parameter \texttt{start\_time} is used in our prototype to delay the vehicle's journey for a certain number of seconds starting at the beginning of the simulation. The parameters \texttt{origin} and \texttt{destination} are addresses in string format, such as cities or specific postal addresses.
 
 The attributes \texttt{stats} and \texttt{schedule} serve the same function as they do in the charging station model. The simulation framework is expected to continuously fill these values in during the progress of the simulation. For an electric vehicle, the data contains information about its position, the distance and time travelled, the battery level, its speed and so on.
 
@@ -451,7 +451,7 @@ The Javascript function \texttt{setTimeout} is used to delay the start of the an
 
 The \texttt{autoUpdate} function is at the core of the simulation. It takes care of updating the EV's position. Therefore, it needs the Google map object and the legs of the route that was calculated.
 
-The route can be shown on the map to signal where the vehicle has already travelled. It is represented by a \texttt{Polyline} that can be styled in different ways. In this case, it is a black line with opoacity $0.8$ and weight $2$.
+The route can be shown on the map to signal where the vehicle has already travelled. It is represented by a \texttt{Polyline} that can be styled in different ways. In this case, it is a black line with opacity $0.8$ and weight $2$.
 
 Then, a marker is created that represents the EV on the map. Its icon is specified in the settings as a car symbol. The EV also gets an info window analogous to the charging stations. Its content is the information that is stored in the attributes which is correctly formatted into HTML by \texttt{getStats}. Again, \texttt{initStats} establishes the connection between the marker and the panel, so that the info window opens when the marker was clicked.
 
