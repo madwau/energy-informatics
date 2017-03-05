@@ -2,7 +2,9 @@
 
 \subsection{Simulation Manager Interface}
 
-Lorem Ipsum
+The Simulation Manager Interface is a functional prototype that implements the core requirements necessary for a traffic simulation frontend. The backend models, i.e. EVs and charging stations, were translated into the frontend and can be filled with the data provided by the simulation framework. They are displayed at the correct location on the map and the EV positions can be updated continuously.
+
+The information is accessible in a structured way: An overview is given by visually inspecting the map and detailed information is available by interacting with the markers on the map. This was achievable by implementing only the specific requirements and relying on the base functionality that the Google Maps JavaScript API already provides.
 
 \subsection{EV Driver Interface}
 
@@ -15,7 +17,15 @@ Since some features are only implemented as ‘proof of concept’ and need to b
 
 \subsection{Simulation Manager Interface}
 
-Lorem Ipsum
+The interface is still at a prototype state and needs to be extended and adapted to fit the specific needs of the backend that supplies the simulation data.
+
+At its current state, the route of the EVs is retrieved from Google's direction API, however, this would not be necessary if the current EV position is continuously provided by the backend.
+
+The question how the backend and frontend communicate in real time is still open thus far. Since the backend is written in Python and the frontend in JavaScript, socket.io might be a good possibility. On the Python side, Flask-SocketIO could be used to run a webserver, while on the client side the official socket.io JavaScript implementation could be run.
+
+This would enable real-time bidirectional communication between the two. It would be necessary to evaluate of the latency is low enough and the throughput high enough for our purpose.
+
+Finally, the UI could be improved by making graphical enhancements, such as displaying a green battery level indicator for EVs or signaling the occupancy of a charging station visually. Important changes could be communicated via notification-style messages.
 
 \subsection{EV Driver Interface}
 
